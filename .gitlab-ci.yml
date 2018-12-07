@@ -1,0 +1,12 @@
+stages:
+  - build
+
+Build Container:
+  image: docker:stable
+  tags:
+    - dind
+  before_script: ["docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com"]
+  script:
+    - docker pull registry.gitlab.com/galaxia-project/services/block-explorer || true
+    - docker build --tag registry.gitlab.com/galaxia-project/services/block-explorer .
+    - docker push registry.gitlab.com/galaxia-project/services/block-explorer
