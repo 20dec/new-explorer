@@ -11,3 +11,5 @@ Build Container:
     - docker pull registry.gitlab.com/galaxia-project/services/block-explorer || true
     - docker build --tag registry.gitlab.com/galaxia-project/services/block-explorer .
     - docker push registry.gitlab.com/galaxia-project/services/block-explorer
+  only:
+    - master
