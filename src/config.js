@@ -1,4 +1,4 @@
-var api = 'https://rpc.explorer.galaxiaproject.org';
+var api = 'http://207.180.240.152:10080';
 var apiList = [];
 var blockTargetInterval = 10;
 var coinUnits = 10000;
