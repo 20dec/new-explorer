@@ -11,6 +11,8 @@
                     class="fa fa-question-circle"></i></span> Fee: <span id="transaction.fee"></span></div>
         <div><span data-toggle="tooltip" data-placement="right" data-original-title="It does not mean that this is the amount that is actually transferred."><i
                     class="fa fa-question-circle"></i></span> Sum of outputs: <span id="transaction.amount_out"></span></div>
+        <div id="div_transaction_unlock_height"><span data-toggle="tooltip" data-placement="right" data-original-title="The block height this transaction will unlock."><i
+            class="fa fa-question-circle"></i></span> Unlock Height: <span id="transaction.unlock_time"></span></div>
         <div><span data-toggle="tooltip" data-placement="right" data-original-title="Size of the transaction in bytes."><i
                     class="fa fa-question-circle"></i></span> Size: <span id="transaction.size"></span></div>
         <div id="div_transaction_paymentId"><span data-toggle="tooltip" data-placement="right" data-original-title="Optional user-defined hexadecimal characters string. Can be used by anyone to distinguish the transactions easier."><i
@@ -123,6 +125,13 @@
             $(".transaction-timeago").timeago('update', new Date(block.timestamp * 1000).toISOString());
         }
         updateText('transaction.amount_out', getReadableCoins(details.amount_out));
+        updateText('transaction.unlock_time', transaction.tx.unlock_time);
+        console.log(transaction.tx.unlock_time);
+        if(transaction.tx.unlock_time == 0) {
+            $('#div_transaction_unlock_height').hide();
+        } else {
+            $('#div_transaction_unlock_height').show();
+        }
         updateText('transaction.fee', getReadableCoins(details.fee));
         updateText('transaction.mixin', (details.mixin - 1));
         if (!details.mixin)
