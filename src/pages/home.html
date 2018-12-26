@@ -298,8 +298,9 @@ $.ajax({
 			success: function(data){
 			block = data.result.block;
 				updateText('totalCoins', getReadableCoins(block.alreadyGeneratedCoins,2));
-				updateText('emissionPercent', (block.alreadyGeneratedCoins / 10000000000000000000 * 100).toFixed(4) + "%");
-				updateText('currentReward', getReadableCoins(block.baseReward,4));
+				console.log(block.alreadyGeneratedCoins);
+				updateText('emissionPercent', (block.alreadyGeneratedCoins / 55000000000000 * 100).toFixed(6) + "%");
+				updateText('currentReward', getReadableCoins(block.baseReward,6));
 			}
 		});
     }
@@ -461,7 +462,6 @@ $('#goto-height').keyup(function(e){
     };
 
     function getBlockRowElement(block, jsonString){
-
         var row = document.createElement('tr');
         row.setAttribute('data-json', jsonString);
         row.setAttribute('data-height', block.height);
