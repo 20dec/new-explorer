@@ -298,7 +298,6 @@ $.ajax({
 			success: function(data){
 			block = data.result.block;
 				updateText('totalCoins', getReadableCoins(block.alreadyGeneratedCoins,2));
-				console.log(block.alreadyGeneratedCoins);
 				updateText('emissionPercent', (block.alreadyGeneratedCoins / 55000000000000 * 100).toFixed(6) + "%");
 				updateText('currentReward', getReadableCoins(block.baseReward,6));
 			}
