@@ -246,8 +246,9 @@ currentPage = {
             updateText('networkHeight', lastStats.height.toString());
             updateText('networkTransactions', lastStats.tx_count.toString());
             updateText('networkHashrate', getReadableHashRateString(lastStats.difficulty / blockTargetInterval));
-            updateText('networkDifficulty', getReadableDifficultyString(lastStats.difficulty, 2).toString());
-			updateText('minimumFee', getReadableCoins(lastStats.min_tx_fee,6));
+			updateText('networkDifficulty', getReadableDifficultyString(lastStats.difficulty, 2).toString());
+			updateText('minimumFee', getReadableCoins(lastStats.tx_min_fee,6));
+			console.log(lastStats);
 			$("time.timeago").timeago();
 			getPoolTransactions();
 			var currHeight = $('#blocks_rows').children().first().data('height');
@@ -468,7 +469,7 @@ $('#goto-height').keyup(function(e){
         row.setAttribute('title', block.hash);
 		var dateTime = new Date(block.timestamp * 1000).toISOString();
 		row.setAttribute('data-dt', dateTime);
-		row.setAttribute('data-min-fee', parseFloat(getReadableCoins(block.min_tx_fee,6,false)));
+		row.setAttribute('data-min-fee', parseFloat(getReadableCoins(block.tx_min_fee,6,false)));
         var columns =
             '<td>' + block.height + '</td>' +
             '<td class="date-time">' + formatDate(block.timestamp) + ' (<time class="timeago" datetime="'+dateTime+'"></time>)</td>' +
