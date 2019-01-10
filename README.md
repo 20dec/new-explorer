@@ -1,5 +1,26 @@
-## Local Deploy
+# Xi Block Explorer
 
-```powershell
-docker run --rm -it -v "${PWD}/src:/web" -p "8080:8080" halverneus/static-file-server:v1.5.0
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run dev
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your unit tests
+```
+npm run test:unit
 ```
