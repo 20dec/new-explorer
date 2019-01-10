@@ -42,7 +42,8 @@
             </div>
 
             <div style="height: 200px;">
-                <span>Height: {{blockHeight}}</span>
+                <span>Height: {{ blockHeight }}</span><br/>
+                <span v-if="networkInfo.network_height">Network Height: {{ networkInfo.network_height }}</span>
             </div>
         </div>
 
@@ -88,7 +89,8 @@ export default {
         ...mapState({
             scanCounts: state => state.explorer.scanCounts,
             scanCount: state => state.explorer.scanCount,
-            blockHeight: state => state.explorer.blockHeight
+            blockHeight: state => state.explorer.blockHeight,
+            networkInfo: state => state.explorer.networkInfo
         }),
         ...mapGetters({
 

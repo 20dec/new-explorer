@@ -23,20 +23,23 @@
 const actions = {
     activate: ({ state, dispatch }) => {
 
-        dispatch('getBlockHeight');
+        dispatch('getInfo');
         setInterval(() => {
 
-            dispatch('getBlockHeight');
+            dispatch('getInfo');
         }, state.updateInterval * 1000);
     },
-    getBlockHeight: ({ commit, dispatch, state }) => {
+    getInfo: ({ commit, dispatch, state }) => {
 
-        state.blockService.getHeight().then((height) => {
+        state.blockService.getInfo().then((info) => {
 
-            if (height != state.height) {
+            console.log('getinfo', info);
 
-                commit('SET_BLOCK_HEIGHT', height);
+            // Return if block height hasn't changed.
+            if (info.height == state.height) {
+                return;
             }
+            commit('SET_NETWORK_INFO', info);
         });
     },
     setScanCount: ({ commit }, scanCount) => {

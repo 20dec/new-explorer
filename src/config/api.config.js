@@ -1,6 +1,7 @@
 const Api = {
-    daemonAddress: 'http://207.180.240.152:10080',
-    apiList: []
+    daemonAddress: 'http://192.168.1.220:22869',
+    apiList: [],
+    apiGetInfo: '/getinfo'
 };
 
 export { Api };

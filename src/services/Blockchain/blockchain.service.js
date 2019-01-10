@@ -3,18 +3,24 @@ import { Api as apiConfig } from '@/config';
 
 export default class BlockchainService {
 
-    constructor() {
+    constructor () {
 
-
-    }
+        this.httpClient = axios.create({ baseURL: apiConfig.daemonAddress });
+    };
 
     /**
-    * @name getHeight
+    * @name getInfo
     * @description Gets current block height.
     */
-    getHeight () {
+    getInfo () {
 
-        return Promise.resolve(123456);
-    }
+        return this.httpClient.get(apiConfig.apiGetInfo).then((response) => {
+
+            return response.data;
+        }).catch((err) => {
+
+            return Promise.reject(err);
+        });
+    };
 
 };

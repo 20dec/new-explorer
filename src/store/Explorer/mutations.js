@@ -24,8 +24,9 @@ const mutations = {
     SET_SCAN_COUNT: (state, scanCount) => {
         state.scanCount = scanCount;
     },
-    SET_BLOCK_HEIGHT: (state, height) => {
-        state.blockHeight = height;
+    SET_NETWORK_INFO: (state, info) => {
+        state.blockHeight = info.height;
+        state.networkInfo = info;
     }
 };
 

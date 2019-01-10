@@ -29,6 +29,7 @@ const state = {
     updateInterval: coinConfig.blockTargetSeconds,
     blockHeight: 0,
     scanHeight: 0,
+    networkInfo: {},
     scanCounts: scanCounts,
     scanCount: scanCounts[0],
     networkStats: {},
