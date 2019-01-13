@@ -22,11 +22,12 @@
  * ============================================================================================== */
 
 import BlockchainService from '@/services/Blockchain';
+import { App as appConfig } from '@/config';
 import { Coin as coinConfig } from '@/config';
 
 const scanCounts = [30, 50, 100];
 const state = {
-    updateInterval: coinConfig.blockTargetSeconds,
+    updateInterval: appConfig.pollingIntervalSeconds * 1000,
     blockHeight: 0,
     scanHeight: 0,
     networkInfo: {},
@@ -34,7 +35,7 @@ const state = {
     scanCount: scanCounts[0],
     networkStats: {},
     blocks: [],
-    txPool: [],
+    transactionPool: [],
     blockService: new BlockchainService()
 };
 

@@ -41,9 +41,15 @@
                 </div>
             </div>
 
-            <div style="height: 200px;">
-                <span>Height: {{ blockHeight }}</span><br/>
-                <span v-if="networkInfo.network_height">Network Height: {{ networkInfo.network_height }}</span>
+            <div style="display:flex; flex-direction: row; flex-grow: 0; flex-shrink: 0; box-sizing: border-box;">
+                <div style="display: flex; flex-direction: row">
+                    <span>{{ blockHeight }}</span>
+                    <span>Height</span>
+                </div>
+                <div style="display: flex; flex-direction: row">
+                    <span>{{ networkInfo.network_height || 0 }}</span>
+                    <span>Network Height</span>
+                </div>
             </div>
         </div>
 
@@ -54,7 +60,14 @@
                 <span>Transaction Pool</span>
                 <div class="spacer"></div>
             </div>
-            <div style="height: 200px;"></div>
+            <div class="flex column">
+                <div class="flex row">
+                    <span>Transactions: {{ txPool.transactions.length }}</span>
+                </div>
+                <span>Total Amount: {{ txPool.totalAmount }}</span>
+                <span>Total Fees: {{ txPool.totalFees }}</span>
+                <span>Total Size: {{ txPool.totalSize }}</span>
+            </div>
         </div>
 
         <!-- Blocks -->
@@ -64,7 +77,7 @@
                 <span>Blocks</span>
                 <div class="spacer"></div>
             </div>
-            <div style="height: 200px;"></div>
+            <block-table></block-table>
         </div>
     </div>
 </template>
@@ -73,12 +86,12 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 //import store from '@/store';
 
-import Category from './components/Category';
+import BlockTable from './components/BlockTable';
 
 export default {
     name: 'explorer',
     components: {
-        //'category': Category
+        'block-table': BlockTable
     },
     data () {
         return {}
@@ -90,10 +103,11 @@ export default {
             scanCounts: state => state.explorer.scanCounts,
             scanCount: state => state.explorer.scanCount,
             blockHeight: state => state.explorer.blockHeight,
-            networkInfo: state => state.explorer.networkInfo
+            networkInfo: state => state.explorer.networkInfo,
+            blocks: state => state.explorer.blocks
         }),
         ...mapGetters({
-
+            txPool: 'explorer/txPool'
         })
     },
     methods: {
@@ -140,10 +154,6 @@ export default {
 .header span {
     padding: 8px;
 }
-.spacer {
-    flex-grow: 1;
-    flex-shrink: 1;
-}
 .radio-group {
     font-weight: 600;
     display: flex;
@@ -161,5 +171,17 @@ export default {
 .checked {
     color: #2A2B30;
     cursor: default !important;
+}
+.table-row {
+    border-bottom: 1px solid #e0e0e0;
+    border-collapse: collapse;
+    padding-top: 2px;
+}
+.table-row.header {
+
+}
+.table-column {
+    flex-grow: 1;
+    flex-shrink: 0;
 }
 </style>

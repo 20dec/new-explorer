@@ -27,23 +27,42 @@ const actions = {
         setInterval(() => {
 
             dispatch('getInfo');
-        }, state.updateInterval * 1000);
+        }, state.updateInterval);
     },
     getInfo: ({ commit, dispatch, state }) => {
 
         state.blockService.getInfo().then((info) => {
 
-            console.log('getinfo', info);
-
             // Return if block height hasn't changed.
-            if (info.height == state.height) {
+            if (info.height == state.blockHeight) {
+                dispatch('getTxPool');
                 return;
             }
-            commit('SET_NETWORK_INFO', info);
+
+            commit('setNetworkInfo', info);
+            dispatch('getBlocks');
+            dispatch('getTxPool');
+        });
+    },
+    getBlocks: ({ commit, dispatch, state }) => {
+
+        let topBlockIndex = state.blockHeight - 1;
+        state.blockService.getBlocks(topBlockIndex).then((blocks) => {
+
+            console.log('blocks', blocks);
+            commit('setBlocks', blocks);
+        });
+    },
+    getTxPool: ({ state, commit }) => {
+
+        state.blockService.getTxPool().then((txPool) => {
+
+            console.log('transactions', txPool);
+            commit('setTxPool', txPool);
         });
     },
     setScanCount: ({ commit }, scanCount) => {
-        commit('SET_SCAN_COUNT', scanCount);
+        commit('setScanCount', scanCount);
     },
 };
 

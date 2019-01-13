@@ -20,6 +20,20 @@
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
  * ============================================================================================== */
-const getters = {};
+const getters = {
+    txPool: (state) => {
+
+        let transactions = state.transactionPool;
+        let pool = transactions.reduce((p, tx) => {
+
+            p.totalAmount = p.totalAmount + tx.amount_out;
+            p.totalFees = p.totalFees + tx.fee;
+            p.totalSize = p.totalSize + tx.size;
+            return p;
+        }, { totalAmount: 0, totalFees: 0, totalSize: 0 });
+        pool.transactions = transactions;
+        return pool;
+    }
+};
 
 export default getters;

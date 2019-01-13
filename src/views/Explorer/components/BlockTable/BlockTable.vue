@@ -21,113 +21,96 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div id="app">
-        <nav-bar/>
-        <div class="main-wrapper">
-            <div class="main-content">
-                <router-view/>
-            </div>
+    <div class="flex column">
+        <div class="table-row header">
+            <span class="col height">Height</span>
+            <span class="col timestamp">Date/Time</span>
+            <span class="col block-hash">Block Hash</span>
+            <span class="col block-size">Size</span>
+            <span class="col tx-count">TXs</span>
+            <span class="col difficulty">Difficulty</span>
+
+        </div>
+        <div class="table-row" v-for="block in blocks">
+            <span class="col height">{{ block.height }}</span>
+            <span class="col timestamp">2019.01.12 05:45:33 PM</span>
+            <span class="col block-hash">{{ block.hash }}</span>
+            <span class="col block-size">{{ block.cumul_size }}</span>
+            <span class="col tx-count">000</span>
+            <span class="col difficulty">{{ block.difficulty }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import NavBar from '@/components/NavBar';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
-    name: 'App',
+    name: 'blockTable',
     components: {
-        'nav-bar': NavBar
+        //'category': Category
     },
-    created () {
-        this.activateBlockUpdates();
+    data () {
+        return {}
+    },
+    mounted: function () {
+    },
+    computed: {
+        ...mapState({
+            blocks: state => state.explorer.blocks
+        }),
+        ...mapGetters({
+
+        })
     },
     methods: {
         ...mapActions({
-            activateBlockUpdates: 'explorer/activate'
+
         })
     }
-}
+};
 </script>
 
-<style>
-#app {
-    font-family: 'Muli', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-    background-color: #FEFEFE;
-}
-body {
-    margin: 0px;
-    padding: 0px;
-}
-.main-wrapper {
-    width: 100%;
-    display: flex;
-    flex-grow: 1;
-    overflow-y: scroll;
-    justify-content: center;
-    background-color: #FAFBFC;
-}
-.main-content {
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    flex-grow: 1;
-}
-@media all and (orientation:portrait) {
+<style scoped>
+.col {
 
 }
-@media all and (max-width: 599px) {
-
+.col.height {
+    width: 90px;
 }
-@media all and (min-width: 600px) {
-
+.col.timestamp {
+    width: 140px;
 }
-@media all and (min-width: 1600px) {
-    .main-content {
-        max-width: 1400px;
-    }
+.col.block-size {
+    width: 80px;
+    text-align: right;
 }
-@media all and (min-width: 1800px) {
-    .main-content {
-        max-width: 1600px;
-    }
+.col.tx-count {
+    width: 60px;
+    text-align: right;
 }
-@media all and (min-width: 2200px) {
-    .main-content {
-        max-width: 2000px;
-    }
+.col.difficulty {
+    width: 100px;
+    text-align: right;
 }
-.spacer {
+.col.block-hash {
     flex-grow: 1;
     flex-shrink: 1;
 }
-.flex {
+.table-row {
+    box-shadow: 0px -1px 0px rgba(153,153,153,0.3) inset;
+    padding: 8px 16px;
+    width: 100%;
     display: flex;
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
-}
-.row {
     flex-direction: row;
-    align-items: center;
+    flex-wrap: nowrap;
+    color: #1A1B20;
 }
-.column {
-    flex-direction: column;
-}
-.no-select {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    -webkit-touch-callout: none;
-    -o-user-select: none;
-    -moz-user-select: none;
+.table-row.header {
+    font-weight: 600;
+    color: #2A2B30;
 }
 </style>

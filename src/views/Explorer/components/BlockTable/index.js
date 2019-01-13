@@ -20,20 +20,4 @@
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
  * ============================================================================================== */
-const mutations = {
-    setScanCount: (state, scanCount) => {
-        state.scanCount = scanCount;
-    },
-    setNetworkInfo: (state, info) => {
-        state.blockHeight = info.height;
-        state.networkInfo = info;
-    },
-    setBlocks: (state, blocks) => {
-        state.blocks = blocks;
-    },
-    setTxPool: (state, txPool) => {
-        state.transactionPool = txPool;
-    }
-};
-
-export default mutations;
+export { default } from './BlockTable.vue';
