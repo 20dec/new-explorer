@@ -41,17 +41,40 @@
             </div>
             <div class="spacer"></div>
         </div>
-        <!-- Difficulty Chart -->
+        <!-- Diff/hash Chart -->
+        <div id="netChart" style="width: 100%;"></div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import ApexCharts from 'apexcharts';
+
 export default {
     name: 'netStats',
     data () {
-        return {}
+        return {
+            netChartOptions: {
+                chart: { height: 250, type: 'line' },
+                yaxis: [
+                    { title: { text: 'Difficulty' } },
+                    { opposite: true, logarithmic: true, title: { text: 'Hashrate' } }
+                ],
+                series: [
+                    { name: 'Difficulty', data: [] },
+                    { name: 'Hashrate', data: [] }
+                ],
+                markers: {
+                    strokeWidth: 5
+                }
+            }
+        }
+    },
+    mounted: function () {
+
+        this.netChart = new ApexCharts(document.getElementById("netChart"), this.netChartOptions);
+        this.netChart.render();
     },
     computed: {
         ...mapState({
@@ -60,8 +83,18 @@ export default {
             blocks: state => state.explorer.blocks,
         }),
         ...mapGetters({
+            netChartData: 'explorer/netChartData',
+            blockSummary: 'explorer/blockSummary',
             txPool: 'explorer/txPool'
         })
+    },
+    watch: {
+        netChartData: 'updateNetChart'
+    },
+    methods: {
+        updateNetChart () {
+            this.netChart.updateSeries(this.netChartData, true);
+        }
     }
 };
 </script>

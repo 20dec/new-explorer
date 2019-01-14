@@ -21,6 +21,33 @@
  *                                                                                                *
  * ============================================================================================== */
 const getters = {
+    netChartData: (state) => {
+
+        let blockTarget = state.coinConfig.blockTargetSeconds;
+        let chartData = state.blocks.reduce((series, block) => {
+
+            series.difficulties.data.push({
+                y: block.difficulty,
+                x: block.height
+            });
+            series.hashrates.data.push({
+                y: block.difficulty / blockTarget,
+                x: block.height
+            });
+            return series;
+        }, {
+                difficulties: { name: 'Difficulty', data: [] },
+                hashrates: { name: 'Hashrate', data: []}
+            }
+        );
+        return [chartData.difficulties, chartData.hashrates];
+    },
+    blockSummary: (state) => {
+
+
+
+        return [];
+    },
     txPool: (state) => {
 
         let coinUnits = state.coinConfig.coinUnits;
@@ -34,7 +61,13 @@ const getters = {
             p.totalSize = p.totalSize + tx.size;
             return p;
         }, { totalAmount: 0, totalFees: 0, totalSize: 0 });
-        pool.transactions = transactions;
+
+        // Add decimals to tx amounts.
+        pool.transactions = transactions.map((tx) => {
+            tx.feeDisplay = (tx.fee / coinUnits).toFixed(decimals);
+            tx.amountDisplay = (tx.amount_out / coinUnits).toFixed(decimals);
+            return tx;
+        });
         pool.totalAmount = (pool.totalAmount / coinUnits).toFixed(decimals);
         pool.totalFees = (pool.totalFees / coinUnits).toFixed(decimals);
         return pool;

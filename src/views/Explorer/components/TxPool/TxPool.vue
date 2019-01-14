@@ -49,15 +49,15 @@
         <!-- List -->
         <div class="table-row header" v-if="txPool.transactions.length > 0">
             <span class="col tx-hash">TX Hash</span>
-            <span class="col tx-amount right">Amount</span>
-            <span class="col tx-fee right">Fee</span>
-            <span class="col tx-size right">Size</span>
+            <span class="col tx-amount center">Amount</span>
+            <span class="col tx-fee center">Fee</span>
+            <span class="col tx-size center">Size</span>
         </div>
         <div class="table-row" v-for="tx in txPool.transactions">
             <span class="col tx-hash">{{ tx.hash }}</span>
-            <span class="col tx-amount right">{{ tx.amount_out }}</span>
-            <span class="col tx-fee right">{{ tx.fee }}</span>
-            <span class="col tx-size right">{{ tx.size }}</span>
+            <span class="col tx-amount center">{{ tx.amountDisplay }}</span>
+            <span class="col tx-fee center">{{ tx.feeDisplay }}</span>
+            <span class="col tx-size center">{{ tx.size }}</span>
         </div>
     </div>
 </template>
@@ -108,7 +108,7 @@ export default {
     color: #1A1B20;
 }
 .table-row.header {
-    font-weight: 700;
+    font-weight: 600;
     color: #2A2B30;
 }
 .label {
@@ -125,6 +125,9 @@ export default {
 .totals {
     padding: 0px 0px 16px 0px;
     flex-wrap: wrap;
+}
+.center {
+    text-align: center;
 }
 @media all and (orientation:portrait) {
 

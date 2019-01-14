@@ -26,18 +26,18 @@
             <span class="col height">Height</span>
             <span class="col timestamp">Date/Time</span>
             <span class="col block-hash">Block Hash</span>
-            <span class="col block-size right">Size</span>
-            <span class="col tx-count right">TXs</span>
-            <span class="col difficulty right">Difficulty</span>
+            <span class="col block-size center">Size</span>
+            <span class="col tx-count center">TXs</span>
+            <span class="col difficulty center">Difficulty</span>
 
         </div>
         <div class="table-row" v-for="block in blocks">
             <span class="col height">{{ block.height }}</span>
             <span class="col timestamp">2019.01.12 05:45:33 PM</span>
             <span class="col block-hash">{{ block.hash }}</span>
-            <span class="col block-size right">{{ block.cumul_size }}</span>
-            <span class="col tx-count right">{{ block.tx_count }}</span>
-            <span class="col difficulty right">{{ block.difficulty }}</span>
+            <span class="col block-size center">{{ block.cumul_size }}</span>
+            <span class="col tx-count center">{{ block.tx_count }}</span>
+            <span class="col difficulty center">{{ block.difficulty }}</span>
         </div>
     </div>
 </template>
@@ -106,6 +106,9 @@ export default {
 .table-row.header {
     font-weight: 600;
     color: #2A2B30;
+}
+.center {
+    text-align: center;
 }
 @media all and (orientation:portrait) {
 
