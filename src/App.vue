@@ -122,6 +122,9 @@ body {
 .column {
     flex-direction: column;
 }
+.column.center {
+    align-items: center;
+}
 .no-select {
     user-select: none;
     -webkit-user-select: none;

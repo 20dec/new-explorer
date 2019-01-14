@@ -21,56 +21,127 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="category">
-        <div class="header">
-            <i class="fas fa-fw" v-bind:class="icon"></i>
-            <span>{{title}}</span>
+    <div class="flex column">
+        <!-- Summary -->
+        <div class="flex row totals">
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ blockHeight }}</span>
+                <span class="label">Height</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ networkInfo.difficulty }}</span>
+                <span class="label">Difficulty</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ networkInfo.hashrate }} H/s</span>
+                <span class="label">Hashrate</span>
+            </div>
+            <div class="spacer"></div>
         </div>
-        <div style="height: 200px;"></div>
+        <!-- Difficulty Chart -->
     </div>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from 'vuex';
+
 export default {
-    name: 'category',
-    props: {
-        title: String,
-        icon: String
-    },
+    name: 'netStats',
     data () {
         return {}
     },
-    mounted: function () {
-    },
     computed: {
-    },
-    methods: {
+        ...mapState({
+            blockHeight: state => state.explorer.blockHeight,
+            networkInfo: state => state.explorer.networkInfo,
+            blocks: state => state.explorer.blocks,
+        }),
+        ...mapGetters({
+            txPool: 'explorer/txPool'
+        })
     }
 };
 </script>
 
 <style scoped>
-.category {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    flex-grow: 0;
+.col {
     flex-shrink: 0;
-    margin-bottom: 16px;
-    box-shadow: 0px 1px 3px rgba(102,102,102,0.4);
 }
-.header {
-    padding: 12px;
+.col.tx-amount {
+    width: 150px;
+}
+.col.tx-fee {
+    width: 120px;
+}
+.col.tx-size {
+    width: 120px;
+}
+.col.tx-hash {
+    min-width: 600px;
+    flex-grow: 1;
+}
+.table-row {
+    box-shadow: 0px -1px 0px rgba(153,153,153,0.3) inset;
+    padding: 8px 16px;
+    width: 100%;
     display: flex;
-    flex-direction: row;
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
-    align-items: center;
-    background-color: #F2F3F4;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: #1A1B20;
+}
+.table-row.header {
+    font-weight: 700;
     color: #2A2B30;
 }
-.header span {
-    padding-left: 8px;
+.label {
+    font-size: 14px;
+    color: #2A2B30;
+    font-weight: 400;
+}
+.total {
+    font-size: 24px;
+    padding: 8px 8px;
+    font-weight: 600;
+    color: #2780E3;
+}
+.totals {
+    padding: 0px 0px 16px 0px;
+    flex-wrap: wrap;
+}
+@media all and (orientation:portrait) {
+
+}
+@media all and (max-width: 599px) {
+    .total {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 8px;
+    }
+    .label {
+        font-size: 12px;
+    }
+}
+@media all and (min-width: 600px) {
+
+}
+@media all and (min-width: 1200px) {
+    .right {
+        text-align: right !important;
+    }
+}
+@media all and (min-width: 1600px) {
+
+}
+@media all and (min-width: 1800px) {
+
+}
+@media all and (min-width: 2200px) {
+
 }
 </style>

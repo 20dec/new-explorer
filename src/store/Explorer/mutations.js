@@ -20,7 +20,11 @@
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
  * ============================================================================================== */
+
 const mutations = {
+    setLoading: (state, prop, isLoading) => {
+        state.loading = isLoading;
+    },
     setScanCount: (state, scanCount) => {
         state.scanCount = scanCount;
     },

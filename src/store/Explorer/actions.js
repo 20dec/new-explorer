@@ -35,7 +35,11 @@ const actions = {
 
             // Return if block height hasn't changed.
             if (info.height == state.blockHeight) {
-                dispatch('getTxPool');
+
+                if (info.tx_pool_size != state.transactionPool.length) {
+
+                    dispatch('getTxPool');
+                }
                 return;
             }
 

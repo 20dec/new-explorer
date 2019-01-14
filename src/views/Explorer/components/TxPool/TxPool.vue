@@ -22,22 +22,42 @@
  * ============================================================================================ -->
 <template>
     <div class="flex column">
-        <div class="table-row header">
-            <span class="col height">Height</span>
-            <span class="col timestamp">Date/Time</span>
-            <span class="col block-hash">Block Hash</span>
-            <span class="col block-size right">Size</span>
-            <span class="col tx-count right">TXs</span>
-            <span class="col difficulty right">Difficulty</span>
-
+        <!-- Summary -->
+        <div class="flex row totals">
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ txPool.transactions.length }}</span>
+                <span class="label">Transactions</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ txPool.totalSize }}</span>
+                <span class="label">Total Size</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ txPool.totalAmount }}</span>
+                <span class="label">Total Amount</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="flex column center total">
+                <span>{{ txPool.totalFees }}</span>
+                <span class="label">Total Fees</span>
+            </div>
+            <div class="spacer"></div>
         </div>
-        <div class="table-row" v-for="block in blocks">
-            <span class="col height">{{ block.height }}</span>
-            <span class="col timestamp">2019.01.12 05:45:33 PM</span>
-            <span class="col block-hash">{{ block.hash }}</span>
-            <span class="col block-size right">{{ block.cumul_size }}</span>
-            <span class="col tx-count right">{{ block.tx_count }}</span>
-            <span class="col difficulty right">{{ block.difficulty }}</span>
+        <!-- List -->
+        <div class="table-row header" v-if="txPool.transactions.length > 0">
+            <span class="col tx-hash">TX Hash</span>
+            <span class="col tx-amount right">Amount</span>
+            <span class="col tx-fee right">Fee</span>
+            <span class="col tx-size right">Size</span>
+        </div>
+        <div class="table-row" v-for="tx in txPool.transactions">
+            <span class="col tx-hash">{{ tx.hash }}</span>
+            <span class="col tx-amount right">{{ tx.amount_out }}</span>
+            <span class="col tx-fee right">{{ tx.fee }}</span>
+            <span class="col tx-size right">{{ tx.size }}</span>
         </div>
     </div>
 </template>
@@ -46,23 +66,13 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
-    name: 'blockTable',
+    name: 'txPool',
     data () {
         return {}
     },
-    mounted: function () {
-    },
     computed: {
-        ...mapState({
-            blocks: state => state.explorer.blocks
-        }),
         ...mapGetters({
-
-        })
-    },
-    methods: {
-        ...mapActions({
-
+            txPool: 'explorer/txPool'
         })
     }
 };
@@ -72,22 +82,16 @@ export default {
 .col {
     flex-shrink: 0;
 }
-.col.height {
-    width: 90px;
+.col.tx-amount {
+    width: 150px;
 }
-.col.timestamp {
-    width: 140px;
+.col.tx-fee {
+    width: 120px;
 }
-.col.block-size {
-    width: 80px;
+.col.tx-size {
+    width: 120px;
 }
-.col.tx-count {
-    width: 60px;
-}
-.col.difficulty {
-    width: 100px;
-}
-.col.block-hash {
+.col.tx-hash {
     min-width: 600px;
     flex-grow: 1;
 }
@@ -104,14 +108,36 @@ export default {
     color: #1A1B20;
 }
 .table-row.header {
-    font-weight: 600;
+    font-weight: 700;
     color: #2A2B30;
+}
+.label {
+    font-size: 14px;
+    color: #2A2B30;
+    font-weight: 400;
+}
+.total {
+    font-size: 24px;
+    padding: 8px 8px;
+    font-weight: 600;
+    color: #2780E3;
+}
+.totals {
+    padding: 0px 0px 16px 0px;
+    flex-wrap: wrap;
 }
 @media all and (orientation:portrait) {
 
 }
 @media all and (max-width: 599px) {
-
+    .total {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 8px;
+    }
+    .label {
+        font-size: 12px;
+    }
 }
 @media all and (min-width: 600px) {
 

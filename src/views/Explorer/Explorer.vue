@@ -41,16 +41,7 @@
                 </div>
             </div>
 
-            <div style="display:flex; flex-direction: row; flex-grow: 0; flex-shrink: 0; box-sizing: border-box;">
-                <div style="display: flex; flex-direction: row">
-                    <span>{{ blockHeight }}</span>
-                    <span>Height</span>
-                </div>
-                <div style="display: flex; flex-direction: row">
-                    <span>{{ networkInfo.network_height || 0 }}</span>
-                    <span>Network Height</span>
-                </div>
-            </div>
+            <net-stats></net-stats>
         </div>
 
         <!-- Transaction pool -->
@@ -60,14 +51,7 @@
                 <span>Transaction Pool</span>
                 <div class="spacer"></div>
             </div>
-            <div class="flex column">
-                <div class="flex row">
-                    <span>Transactions: {{ txPool.transactions.length }}</span>
-                </div>
-                <span>Total Amount: {{ txPool.totalAmount }}</span>
-                <span>Total Fees: {{ txPool.totalFees }}</span>
-                <span>Total Size: {{ txPool.totalSize }}</span>
-            </div>
+            <tx-pool></tx-pool>
         </div>
 
         <!-- Blocks -->
@@ -84,14 +68,17 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-//import store from '@/store';
 
 import BlockTable from './components/BlockTable';
+import NetStats from './components/NetStats';
+import TxPool from './components/TxPool';
 
 export default {
     name: 'explorer',
     components: {
-        'block-table': BlockTable
+        'block-table': BlockTable,
+        'net-stats': NetStats,
+        'tx-pool': TxPool
     },
     data () {
         return {}
@@ -101,14 +88,9 @@ export default {
     computed: {
         ...mapState({
             scanCounts: state => state.explorer.scanCounts,
-            scanCount: state => state.explorer.scanCount,
-            blockHeight: state => state.explorer.blockHeight,
-            networkInfo: state => state.explorer.networkInfo,
-            blocks: state => state.explorer.blocks
+            scanCount: state => state.explorer.scanCount
         }),
-        ...mapGetters({
-            txPool: 'explorer/txPool'
-        })
+        ...mapGetters({})
     },
     methods: {
         ...mapActions({

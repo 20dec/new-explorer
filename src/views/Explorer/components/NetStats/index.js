@@ -20,4 +20,4 @@
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
  * ============================================================================================== */
-export { default } from './Category.vue';
+export { default } from './NetStats.vue';
