@@ -42,7 +42,9 @@
             <div class="spacer"></div>
         </div>
         <!-- Diff/hash Chart -->
-        <div id="netChart" style="width: 100%;"></div>
+        <div class="flex column chart-wrapper">
+            <div id="netChart" class="chart-ele"></div>
+        </div>
     </div>
 </template>
 
@@ -56,17 +58,34 @@ export default {
     data () {
         return {
             netChartOptions: {
-                chart: { height: 250, type: 'line' },
+                chart: { height: 250, type: 'line', stacked: false },
                 yaxis: [
-                    { title: { text: 'Difficulty' } },
-                    { opposite: true, logarithmic: true, title: { text: 'Hashrate' } }
+                    { },
+                    //{ opposite: false, },
+                    //{ opposite: true, }
                 ],
                 series: [
                     { name: 'Difficulty', data: [] },
-                    { name: 'Hashrate', data: [] }
+                    { name: 'Hashrate', data: [] },
+                    { name: 'BlockTime', data: [], type: 'column' }
                 ],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        //endingShape: 'rounded',
+                        columnWidth: '30%',
+                    },
+                },
                 markers: {
-                    strokeWidth: 5
+                    size: 1,
+                    strokeWidth: 0
+                },
+                stroke: {
+                    show: true,
+                    lineCap: 'butt',
+                    colors: undefined,
+                    width: 3,
+                    dashArray: 0,
                 }
             }
         }
@@ -93,7 +112,13 @@ export default {
     },
     methods: {
         updateNetChart () {
-            this.netChart.updateSeries(this.netChartData, true);
+
+            let chartData = this.netChartData;
+            this.netChartOptions.yaxis = this.netChartData.yAxis;
+            this.netChartOptions.series = this.netChartData.series;
+            this.netChart.updateOptions(this.netChartOptions, false);
+
+            //this.netChart.updateSeries(this.netChartData.series, true);
         }
     }
 };
@@ -146,6 +171,14 @@ export default {
 .totals {
     padding: 0px 0px 16px 0px;
     flex-wrap: wrap;
+}
+.chart-wrapper {
+    padding: 0px 16px;
+
+}
+.chart-ele {
+    width: 100%;
+    display: inline-block;
 }
 @media all and (orientation:portrait) {
 

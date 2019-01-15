@@ -24,23 +24,64 @@ const getters = {
     netChartData: (state) => {
 
         let blockTarget = state.coinConfig.blockTargetSeconds;
-        let chartData = state.blocks.reduce((series, block) => {
 
+        let blocks = state.blocks;
+        blocks.sort((a,b) => (a.height > b.height) ? 1 : ((b.height > a.height) ? -1 : 0));
+        let diffs = [];
+
+        let chartData = blocks.reduce((series, block) => {
+
+            diffs.push(block.difficulty);
             series.difficulties.data.push({
-                y: block.difficulty,
-                x: block.height
+                x: block.height,
+                y: block.difficulty
             });
             series.hashrates.data.push({
-                y: block.difficulty / blockTarget,
-                x: block.height
+                x: block.height,
+                y: block.difficulty / blockTarget
             });
+
+            // Solve time
+            let solveTime = series.lastBlockTime ? block.timestamp - series.lastBlockTime : null;
+            series.blockTimes.data.push({
+                x: block.height,
+                y: solveTime ? solveTime - blockTarget : null
+            });
+            console.log(block.height);
+            series.lastBlockTime = block.timestamp;
             return series;
         }, {
                 difficulties: { name: 'Difficulty', data: [] },
-                hashrates: { name: 'Hashrate', data: []}
+                hashrates: { name: 'Hashrate', data: []},
+                blockTimes: { name: 'BlockTime', data: [], type: 'column' }
             }
         );
-        return [chartData.difficulties, chartData.hashrates];
+        let diffMin = Math.min(...diffs),
+            diffMax = Math.max(...diffs),
+            diffAvg = diffs => diffs.reduce((a,b) => a + b, 0) / diffs.length;
+
+        return {
+            yAxis: [
+                {
+                    seriesName: 'Difficulty',
+                    //title: { text: 'Difficulty' } ,
+                    min: diffMin - (diffMin * 0.01),
+                    max: diffMax + (diffMax * 0.01)
+                },
+                {
+                    seriesName: 'Hashrate',
+                    //title: { text: 'Hashrate' },
+                    opposite: false,
+                    //min: (diffOptions.min / blockTarget) - 20,
+                    //max: (diffOptions.max / blockTarget) + 20
+                },
+                {
+                    seriesName: 'BlockTime',
+                    opposite: true
+                }
+            ],
+            series: [chartData.difficulties, chartData.hashrates, chartData.blockTimes]
+        };
     },
     blockSummary: (state) => {
 

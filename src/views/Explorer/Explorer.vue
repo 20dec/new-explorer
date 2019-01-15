@@ -29,7 +29,8 @@
                 <i class="fas fa-fw fa-server"></i>
                 <span>Network Stats</span>
                 <div class="spacer"></div>
-                <div class="radio-group row">
+                <!-- Block count selector, to be implemented later -->
+                <!--<div class="radio-group row">
                     <span
                         v-for="option in scanCounts"
                         :key="option"
@@ -38,7 +39,7 @@
                         @click="setScanCount(option)">
                         {{option}}
                     </span>
-                </div>
+                </div>-->
             </div>
 
             <net-stats></net-stats>
