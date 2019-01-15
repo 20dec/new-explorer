@@ -25,13 +25,11 @@ const getters = {
 
         let blockTarget = state.coinConfig.blockTargetSeconds;
 
-        let blocks = state.blocks;
+        let blocks = state.blocks.slice();
         blocks.sort((a,b) => (a.height > b.height) ? 1 : ((b.height > a.height) ? -1 : 0));
-        let diffs = [];
 
         let chartData = blocks.reduce((series, block) => {
 
-            diffs.push(block.difficulty);
             series.difficulties.data.push({
                 x: block.height,
                 y: block.difficulty
@@ -45,9 +43,8 @@ const getters = {
             let solveTime = series.lastBlockTime ? block.timestamp - series.lastBlockTime : null;
             series.blockTimes.data.push({
                 x: block.height,
-                y: solveTime ? solveTime - blockTarget : null
+                y: solveTime
             });
-            console.log(block.height);
             series.lastBlockTime = block.timestamp;
             return series;
         }, {
@@ -56,20 +53,25 @@ const getters = {
                 blockTimes: { name: 'BlockTime', data: [], type: 'column' }
             }
         );
+        let diffs = chartData.difficulties.data.map(d => d.y);
         let diffMin = Math.min(...diffs),
             diffMax = Math.max(...diffs),
             diffAvg = diffs => diffs.reduce((a,b) => a + b, 0) / diffs.length;
+        let solveTimes = chartData.blockTimes.data.map(s => s.y);
+        let sovleAvg = solveTimes => solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
 
         return {
             yAxis: [
                 {
                     seriesName: 'Difficulty',
+                    decimalsInFloat: 0,
                     //title: { text: 'Difficulty' } ,
                     min: diffMin - (diffMin * 0.01),
                     max: diffMax + (diffMax * 0.01)
                 },
                 {
                     seriesName: 'Hashrate',
+                    decimalsInFloat: 0,
                     //title: { text: 'Hashrate' },
                     opposite: false,
                     //min: (diffOptions.min / blockTarget) - 20,
@@ -77,6 +79,7 @@ const getters = {
                 },
                 {
                     seriesName: 'BlockTime',
+                    decimalsInFloat: 0,
                     opposite: true
                 }
             ],

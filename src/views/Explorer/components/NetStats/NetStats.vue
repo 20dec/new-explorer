@@ -58,11 +58,11 @@ export default {
     data () {
         return {
             netChartOptions: {
-                chart: { height: 250, type: 'line', stacked: false },
+                chart: { height: 300, type: 'line', stacked: false },
                 yaxis: [
                     { },
-                    //{ opposite: false, },
-                    //{ opposite: true, }
+                    { opposite: false, },
+                    { opposite: true, }
                 ],
                 series: [
                     { name: 'Difficulty', data: [] },
@@ -73,7 +73,7 @@ export default {
                     bar: {
                         horizontal: false,
                         //endingShape: 'rounded',
-                        columnWidth: '30%',
+                        columnWidth: '25%',
                     },
                 },
                 markers: {
