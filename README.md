@@ -1,5 +1,9 @@
 # Xi Block Explorer
 
+## Dev environment
+Node.js
+vue-cli v3+ `npm install -g vue-cli`
+
 ## Project setup
 ```
 npm install
