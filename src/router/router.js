@@ -24,8 +24,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Explorer from '@/views/Explorer';
-import Block from '@/views/Block';
-import Transaction from '@/views/Transaction';
+import Detail from '@/views/Detail';
 import PaperWallet from '@/views/PaperWallet';
 
 Vue.use(Router);
@@ -40,14 +39,10 @@ export default new Router({
             component: Explorer
         },
         {
-            path: '/block',
-            name: 'block',
-            component: Block
-        },
-        {
-            path: '/transaction',
-            name: 'transaction',
-            component: Transaction
+            path: '/detail/:param',
+            props: true,
+            name: 'detail',
+            component: Detail
         },
         {
             path: '/paperWallet',

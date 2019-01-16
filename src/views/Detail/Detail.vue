@@ -1,4 +1,4 @@
-/* ============================================================================================== *
+<!-- ============================================================================================ *
  *                                                                                                *
  *                                       Xi Block Explorer                                        *
  *                                                                                                *
@@ -19,5 +19,44 @@
  * You should have received a copy of the GNU General Public License along with this program.     *
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
- * ============================================================================================== */
-export { default } from './Block.vue';
+ * ============================================================================================ -->
+<template>
+    <div class="detail-page">
+
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'detail',
+        props: {
+            param: undefined
+        },
+        data () {
+            return {
+                scrollPosition: 0
+            }
+        },
+        mounted: function () {
+
+            console.log('param', this.param);
+        },
+        computed: {
+            isScrolled () {
+
+                return 5;
+            }
+        }
+    };
+</script>
+
+<style scoped>
+.detail-page {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+</style>

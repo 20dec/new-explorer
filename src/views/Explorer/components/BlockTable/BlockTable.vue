@@ -34,7 +34,11 @@
         <div class="table-row" v-for="block in blocks">
             <span class="col height">{{ block.height }}</span>
             <span class="col timestamp">2019.01.12 05:45:33 PM</span>
-            <span class="col block-hash">{{ block.hash }}</span>
+            <span class="col block-hash link">
+                <router-link :to="{ path: 'detail/' + block.hash }" class="detail-link">
+                    {{ block.hash }}
+                </router-link>
+            </span>
             <span class="col block-size center">{{ block.cumul_size }}</span>
             <span class="col tx-count center">{{ block.tx_count }}</span>
             <span class="col difficulty center">{{ block.difficulty }}</span>
@@ -109,6 +113,13 @@ export default {
 }
 .center {
     text-align: center;
+}
+.detail-link {
+    color: #3DA1FC !important;
+    text-decoration: none;
+}
+.detail-link:hover {
+    text-decoration: underline;
 }
 @media all and (orientation:portrait) {
 

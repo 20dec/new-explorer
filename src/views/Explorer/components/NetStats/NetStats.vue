@@ -101,26 +101,26 @@ export default {
             blocks: state => state.explorer.blocks,
         }),
         ...mapGetters({
-            netChartData: 'explorer/netChartData',
+            networkStats: 'explorer/networkStats',
             blockSummary: 'explorer/blockSummary',
             txPool: 'explorer/txPool'
         })
     },
     watch: {
-        netChartData: 'updateNetChart'
+        networkStats: 'updateNetChart'
     },
     methods: {
         updateNetChart () {
 
             if (!this.netChart) {
-                
+
                 this.netChart = new ApexCharts(document.getElementById("netChart"), this.netChartOptions);
                 this.netChart.render();
             }
 
-            let chartData = this.netChartData;
-            this.netChartOptions.yaxis = this.netChartData.yAxis;
-            this.netChartOptions.series = this.netChartData.series;
+            let chartData = this.networkStats.netChartData;
+            this.netChartOptions.yaxis = chartData.yAxis;
+            this.netChartOptions.series = chartData.series;
             this.netChart.updateOptions(this.netChartOptions, false);
         }
     }

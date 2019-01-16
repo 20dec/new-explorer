@@ -21,7 +21,7 @@
  *                                                                                                *
  * ============================================================================================== */
 const getters = {
-    netChartData: (state) => {
+    networkStats: (state) => {
 
         let blockTarget = state.coinConfig.blockTargetSeconds;
 
@@ -34,6 +34,8 @@ const getters = {
                 x: block.height,
                 y: block.difficulty
             });
+
+            // Hashrates
             series.hashrates.data.push({
                 x: block.height,
                 y: block.difficulty / blockTarget
@@ -45,6 +47,8 @@ const getters = {
                 x: block.height,
                 y: solveTime
             });
+
+            // Update lastBlockTime for solve time calculation.
             series.lastBlockTime = block.timestamp;
             return series;
         }, {
@@ -57,40 +61,55 @@ const getters = {
         let diffMin = Math.min(...diffs),
             diffMax = Math.max(...diffs),
             diffAvg = diffs => diffs.reduce((a,b) => a + b, 0) / diffs.length;
+        let hashMin = diffMin / blockTarget,
+            hashMax = diffMax / blockTarget,
+            hashAvg = diffAvg / blockTarget;
         let solveTimes = chartData.blockTimes.data.map(s => s.y);
-        let sovleAvg = solveTimes => solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
+        let solveMin = Math.min(...solveTimes),
+            solveMax = Math.max(...solveTimes),
+            solveAvg = solveTimes => solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
 
         return {
-            yAxis: [
-                {
-                    seriesName: 'Difficulty',
-                    decimalsInFloat: 0,
-                    //title: { text: 'Difficulty' } ,
-                    min: diffMin - (diffMin * 0.01),
-                    max: diffMax + (diffMax * 0.01)
-                },
-                {
-                    seriesName: 'Hashrate',
-                    decimalsInFloat: 0,
-                    //title: { text: 'Hashrate' },
-                    opposite: false,
-                    //min: (diffOptions.min / blockTarget) - 20,
-                    //max: (diffOptions.max / blockTarget) + 20
-                },
-                {
-                    seriesName: 'BlockTime',
-                    decimalsInFloat: 0,
-                    opposite: true
-                }
-            ],
-            series: [chartData.difficulties, chartData.hashrates, chartData.blockTimes]
+            difficulty: {
+                min: diffMin,
+                max: diffMax,
+                avg: diffAvg
+            },
+            hashrate: {
+                min: hashMin,
+                max: hashMax,
+                avg: hashAvg
+            },
+            solveTimes: {
+                min: solveMin,
+                max: solveMax,
+                avg: solveAvg
+            },
+            netChartData: {
+                yAxis: [
+                    {
+                        seriesName: 'Difficulty',
+                        decimalsInFloat: 0,
+                        min: diffMin - (diffMin * 0.1),
+                        max: diffMax
+                    },
+                    {
+                        seriesName: 'Hashrate',
+                        decimalsInFloat: 0,
+                        opposite: false,
+                        min: hashMin,
+                        max: hashMax + (hashMax * 0.1)
+                    },
+                    {
+                        seriesName: 'BlockTime',
+                        decimalsInFloat: 0,
+                        opposite: true
+                    }
+                ],
+                series: [chartData.difficulties, chartData.hashrates, chartData.blockTimes]
+            }
+
         };
-    },
-    blockSummary: (state) => {
-
-
-
-        return [];
     },
     txPool: (state) => {
 
