@@ -92,8 +92,7 @@ export default {
     },
     mounted: function () {
 
-        this.netChart = new ApexCharts(document.getElementById("netChart"), this.netChartOptions);
-        this.netChart.render();
+        this.updateNetChart();
     },
     computed: {
         ...mapState({
@@ -113,12 +112,16 @@ export default {
     methods: {
         updateNetChart () {
 
+            if (!this.netChart) {
+                
+                this.netChart = new ApexCharts(document.getElementById("netChart"), this.netChartOptions);
+                this.netChart.render();
+            }
+
             let chartData = this.netChartData;
             this.netChartOptions.yaxis = this.netChartData.yAxis;
             this.netChartOptions.series = this.netChartData.series;
             this.netChart.updateOptions(this.netChartOptions, false);
-
-            //this.netChart.updateSeries(this.netChartData.series, true);
         }
     }
 };
