@@ -32,8 +32,22 @@ const mutations = {
         state.blockHeight = info.height;
         state.networkInfo = info;
     },
+    setNetworkStats: (state, block) => {
+
+        console.log('setting network stats', block);
+
+        let coinUnits = state.coinConfig.coinUnits;
+        let decimals = state.coinConfig.decimals;
+
+        let networkInfo = {
+            blockReward: (block.baseReward / coinUnits).toFixed(decimals),
+            circulatingCoins: (block.alreadyGeneratedCoins / coinUnits).toFixed(decimals),
+            totalTransactions: block.alreadyGeneratedTransactions
+        };
+        state.networkInfo = { ...state.networkInfo, ...networkInfo};
+    },
     setBlocks: (state, blocks) => {
-        state.blocks = blocks;
+        state.latestBlocks = blocks;
     },
     setTxPool: (state, txPool) => {
         state.transactionPool = txPool;

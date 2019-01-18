@@ -44,8 +44,12 @@ const actions = {
             }
 
             commit('setNetworkInfo', info);
+            dispatch('getLatestBlock', info.height);
             dispatch('getBlocks');
             dispatch('getTxPool');
+        }).catch((err) => {
+
+            console.log('update error', err);
         });
     },
     getBlocks: ({ commit, dispatch, state }) => {
@@ -53,16 +57,33 @@ const actions = {
         let topBlockIndex = state.blockHeight - 1;
         state.blockService.getBlocks(topBlockIndex).then((blocks) => {
 
-            console.log('blocks', blocks);
             commit('setBlocks', blocks);
+        }).catch((err) => {
+
+            console.log('get blocks error', err);
         });
     },
     getTxPool: ({ state, commit }) => {
 
         state.blockService.getTxPool().then((txPool) => {
 
-            console.log('transactions', txPool);
             commit('setTxPool', txPool);
+        }).catch((err) => {
+
+            console.log('get tx pool error', err);
+        });
+    },
+    getLatestBlock: ({ state, commit }, height) => {
+
+        return state.blockService.getBlockHash(height).then((hash) => {
+
+            return state.blockService.getBlock(hash);
+        }).then((block) => {
+
+            commit('setNetworkStats', block);
+        }).catch((err) => {
+
+            console.log('get latest block error', err);
         });
     },
     setScanCount: ({ commit }, scanCount) => {

@@ -25,17 +25,16 @@ import BlockchainService from '@/services/Blockchain';
 import { App as appConfig } from '@/config';
 import { Coin as coinConfig } from '@/config';
 
-const scanCounts = [30, 50, 90];
+const scanCounts = [30, 60, 90];
 const state = {
     updateInterval: appConfig.pollingIntervalSeconds * 1000,
     coinConfig: coinConfig,
+    scanCounts: scanCounts,
+    scanCount: scanCounts[0],
     blockHeight: 0,
     scanHeight: 0,
     networkInfo: {},
-    scanCounts: scanCounts,
-    scanCount: scanCounts[0],
-    networkStats: {},
-    blocks: [],
+    latestBlocks: [],
     transactionPool: [],
     blockService: new BlockchainService(),
     loading: {

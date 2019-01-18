@@ -39,11 +39,26 @@
                 <span>{{ networkInfo.hashrate }} H/s</span>
                 <span class="label">Hashrate</span>
             </div>
+            <div class="spacer" v-if="netStats.solveTimes"></div>
+            <div class="flex column center total" v-if="netStats.solveTimes">
+                <span>{{ netStats.solveTimes.avg }}</span>
+                <span class="label">Avg. Solve Time</span>
+            </div>
             <div class="spacer"></div>
         </div>
         <!-- Diff/hash Chart -->
         <div class="flex column chart-wrapper">
             <div id="netChart" class="chart-ele"></div>
+        </div>
+        <div class="flex row">
+            <div class="flex column center total sub" v-if="networkInfo.blockReward">
+                <span>{{ networkInfo.blockReward }}</span>
+                <span class="label">Block Reward</span>
+            </div>
+            <div class="flex column center total sub" v-if="networkInfo.circulatingCoins">
+                <span>{{ networkInfo.circulatingCoins }}</span>
+                <span class="label">Circulating Supply</span>
+            </div>
         </div>
     </div>
 </template>
@@ -57,6 +72,7 @@ export default {
     name: 'netStats',
     data () {
         return {
+            netStats: {},
             netChartOptions: {
                 chart: { height: 300, type: 'line', stacked: false },
                 yaxis: [
@@ -92,7 +108,7 @@ export default {
     },
     mounted: function () {
 
-        this.updateNetChart();
+        this.updateNetStats();
     },
     computed: {
         ...mapState({
@@ -107,16 +123,18 @@ export default {
         })
     },
     watch: {
-        networkStats: 'updateNetChart'
+        networkStats: 'updateNetStats'
     },
     methods: {
-        updateNetChart () {
+        updateNetStats () {
 
             if (!this.netChart) {
 
                 this.netChart = new ApexCharts(document.getElementById("netChart"), this.netChartOptions);
                 this.netChart.render();
             }
+
+            this.netStats = this.networkStats.netStats;
 
             let chartData = this.networkStats.netChartData;
             this.netChartOptions.yaxis = chartData.yAxis;
@@ -166,10 +184,14 @@ export default {
     font-weight: 400;
 }
 .total {
-    font-size: 24px;
+    /*font-size: 24px;*/
+    font-size: 1.9vw;
     padding: 8px 8px;
     font-weight: 600;
     color: #2780E3;
+}
+.total.sub {
+    font-size: 1.8vw;
 }
 .totals {
     padding: 0px 0px 16px 0px;
@@ -192,12 +214,40 @@ export default {
         font-size: 14px;
         padding: 8px 8px;
     }
+    .total.sub {
+        font-size: 14px;
+    }
     .label {
         font-size: 12px;
     }
 }
 @media all and (min-width: 600px) {
-
+    .total {
+        font-weight: 600;
+        font-size: 18px;
+        padding: 8px 8px;
+    }
+    .total.sub {
+        font-size: 16px;
+    }
+    .label {
+        font-size: 12px;
+    }
+}
+@media all and (min-width: 1100px) {
+    .total {
+        /*font-size: 24px;*/
+        font-size: 24px;
+        padding: 8px 8px;
+        font-weight: 600;
+        color: #2780E3;
+    }
+    .total.sub {
+        font-size: 20px;
+    }
+    .label {
+        font-size: 14px;
+    }
 }
 @media all and (min-width: 1200px) {
     .right {

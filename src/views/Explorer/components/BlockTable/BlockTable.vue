@@ -58,7 +58,7 @@ export default {
     },
     computed: {
         ...mapState({
-            blocks: state => state.explorer.blocks
+            blocks: state => state.explorer.latestBlocks
         }),
         ...mapGetters({
 
@@ -115,7 +115,9 @@ export default {
     text-align: center;
 }
 .detail-link {
-    color: #3DA1FC !important;
+    font-weight: 600;
+    color: #6A6B70;
+    color: #2780E3 !important;
     text-decoration: none;
 }
 .detail-link:hover {

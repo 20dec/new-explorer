@@ -4,7 +4,7 @@ const Coin = {
     decimals: 6,
     coinName: 'Xi',
     coinTicker: 'XIG',
-    maxSupply: 3000000000
+    maxSupply: 50000000000000
 };
 
 export { Coin };

@@ -25,7 +25,7 @@ const getters = {
 
         let blockTarget = state.coinConfig.blockTargetSeconds;
 
-        let blocks = state.blocks.slice();
+        let blocks = state.latestBlocks.slice();
         blocks.sort((a,b) => (a.height > b.height) ? 1 : ((b.height > a.height) ? -1 : 0));
 
         let chartData = blocks.reduce((series, block) => {
@@ -60,30 +60,32 @@ const getters = {
         let diffs = chartData.difficulties.data.map(d => d.y);
         let diffMin = Math.min(...diffs),
             diffMax = Math.max(...diffs),
-            diffAvg = diffs => diffs.reduce((a,b) => a + b, 0) / diffs.length;
+            diffAvg = diffs.reduce((a,b) => a + b, 0) / diffs.length;
         let hashMin = diffMin / blockTarget,
             hashMax = diffMax / blockTarget,
             hashAvg = diffAvg / blockTarget;
         let solveTimes = chartData.blockTimes.data.map(s => s.y);
         let solveMin = Math.min(...solveTimes),
             solveMax = Math.max(...solveTimes),
-            solveAvg = solveTimes => solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
+            solveAvg = solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
 
         return {
-            difficulty: {
-                min: diffMin,
-                max: diffMax,
-                avg: diffAvg
-            },
-            hashrate: {
-                min: hashMin,
-                max: hashMax,
-                avg: hashAvg
-            },
-            solveTimes: {
-                min: solveMin,
-                max: solveMax,
-                avg: solveAvg
+            netStats: {
+                difficulty: {
+                    min: diffMin,
+                    max: diffMax,
+                    avg: diffAvg
+                },
+                hashrate: {
+                    min: hashMin,
+                    max: hashMax,
+                    avg: hashAvg
+                },
+                solveTimes: {
+                    min: solveMin,
+                    max: solveMax,
+                    avg: solveAvg.toFixed(2)
+                },
             },
             netChartData: {
                 yAxis: [
