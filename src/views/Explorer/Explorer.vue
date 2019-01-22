@@ -25,7 +25,7 @@
 
         <!-- Network stats -->
         <div class="section column">
-            <div class="header">
+            <div class="section-header">
                 <i class="fas fa-fw fa-server"></i>
                 <span>Network Stats</span>
                 <div class="spacer"></div>
@@ -47,7 +47,7 @@
 
         <!-- Transaction pool -->
         <div class="section column">
-            <div class="header">
+            <div class="section-header">
                 <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Transaction Pool</span>
                 <div class="spacer"></div>
@@ -57,7 +57,7 @@
 
         <!-- Blocks -->
         <div class="section column">
-            <div class="header">
+            <div class="section-header">
                 <i class="fas fa-fw fa-history"></i>
                 <span>Blocks</span>
                 <div class="spacer"></div>
@@ -111,31 +111,8 @@ export default {
     flex-shrink: 0;
     width: 100%;
 }
-.section {
-    display: flex;
-    box-sizing: border-box;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin-bottom: 16px;
-    box-shadow: 0px 1px 3px rgba(102,102,102,0.4);
-    background-color: #FEFEFE;
-}
-.header {
-    padding: 8px 8px 8px 12px;
-    display: flex;
-    flex-direction: row;
-    flex-grow: 0;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    align-items: center;
-    /*background-color: #F2F3F4;*/
-    color: #2A2B30;
-}
 .label {
     padding: 0px 16px;
-}
-.header span {
-    padding: 8px;
 }
 .radio-group {
     font-weight: 600;

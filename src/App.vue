@@ -53,10 +53,10 @@ export default {
 
 <style>
 #app {
-    font-family: 'Muli', Helvetica, Arial, sans-serif;
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    color: #4A4B50;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -109,6 +109,9 @@ body {
     flex-grow: 1;
     flex-shrink: 1;
 }
+.spacer.half {
+    flex-grow: 0.5;
+}
 .flex {
     display: flex;
     flex-grow: 0;
@@ -125,6 +128,14 @@ body {
 .column.center {
     align-items: center;
 }
+.px3 {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.py3 {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
 .no-select {
     user-select: none;
     -webkit-user-select: none;
@@ -132,5 +143,65 @@ body {
     -webkit-touch-callout: none;
     -o-user-select: none;
     -moz-user-select: none;
+}
+.section {
+    display: flex;
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    box-shadow: 0px 1px 3px rgba(102,102,102,0.4);
+    background-color: #FEFEFE;
+    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
+}
+.section-header {
+    padding: 8px 8px 8px 12px;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    align-items: center;
+    color: #4A4B50;
+}
+.section-header span {
+    padding: 8px;
+    font-size: 18px;
+}
+.section-header i {
+
+}
+/* Animation stuff */
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 </style>

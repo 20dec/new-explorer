@@ -7,7 +7,8 @@ const rpcMethods = {
     getBlocks: 'f_blocks_list_json',
     getLastBlockHeader: 'getlastblockheader',
     getBlockHeaderByHash: 'getblockheaderbyhash',
-    getTransactionPool: 'f_on_transactions_pool_json'
+    getTransactionPool: 'f_on_transactions_pool_json',
+    getTransaction: 'f_transaction_json'
 };
 
 export default class BlockchainService {
@@ -41,7 +42,7 @@ export default class BlockchainService {
     */
     getBlock (hash) {
 
-        // Get block hash first if height is passed.
+        // Check hash param.
         if (!hash) {
 
             return Promise.reject('Must specify block hash');
@@ -55,7 +56,7 @@ export default class BlockchainService {
 
         return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
 
-            return response.data.result.block;
+            return response.data.result;
         }).catch((err) => {
 
             return Promise.reject(err);
@@ -79,7 +80,9 @@ export default class BlockchainService {
 
         return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
 
-            return response.data.result;
+            console.log('block hash result', response.data.result);
+            let blockHash = response.data.result;
+            return blockHash;
         }).catch((err) => {
 
             return Promise.reject(err);
@@ -113,6 +116,34 @@ export default class BlockchainService {
     };
 
     /**
+    * @name getTx
+    * @description Gets transaction by hash.
+    * @param {string} hash
+    */
+    getTx (hash) {
+
+        // Get block hash first if height is passed.
+        if (!hash) {
+
+            return Promise.reject('Must specify block hash');
+        }
+
+        let rpcPayload = Object.assign({}, apiConfig.jsonRpcBase);
+        rpcPayload.method = rpcMethods.getTransaction;
+        rpcPayload.params = {
+            hash: hash
+        };
+
+        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+
+            return response.data.error ? Promise.reject(response.data.error) : response.data.result;
+        }).catch((err) => {
+
+            return Promise.reject(err);
+        });
+    };
+
+    /**
     * @name getTxPool
     * @description Gets the current transaction pool.
     */
@@ -130,4 +161,33 @@ export default class BlockchainService {
         });
     };
 
+    /**
+    * @name find
+    * @description Find block or transaction.
+    * @param {string} hash Block or tx hash.
+    */
+    find (hash) {
+
+        // Validate params.
+        if (!hash) {
+
+            return Promise.reject('Must specify hash');
+        }
+
+        // Try tx hash.
+        return this.getTx(hash).then((result) => {
+
+            console.log('got tx', result);
+            return Promise.resolve(result);
+        }).catch((err) => {
+
+            return this.getBlock(hash);
+        }).then((result) => {
+
+            return Promise.resolve(result);
+        }).catch((err) => {
+
+            return Promise.reject('Hash not found');
+        });
+    };
 };

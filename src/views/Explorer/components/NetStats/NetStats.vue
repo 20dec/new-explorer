@@ -65,7 +65,6 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-
 import ApexCharts from 'apexcharts';
 
 export default {
@@ -74,7 +73,18 @@ export default {
         return {
             netStats: {},
             netChartOptions: {
-                chart: { height: 300, type: 'line', stacked: false },
+                dataLabels: {
+                    enabled: false,
+                },
+                chart: {
+                    height: 300,
+                    type: 'line',
+                    stacked: false,
+                    fontFamily: "'Muli', Helvetica, Arial, sans-serif",
+                    sparkline: {
+                        enabled: false,
+                    }
+                },
                 yaxis: [
                     { },
                     { opposite: false, },
@@ -194,7 +204,7 @@ export default {
     font-size: 1.8vw;
 }
 .totals {
-    padding: 0px 0px 16px 0px;
+    padding: 4px 0px 8px 0px;
     flex-wrap: wrap;
 }
 .chart-wrapper {

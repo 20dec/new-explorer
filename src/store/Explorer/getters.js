@@ -93,19 +93,28 @@ const getters = {
                         seriesName: 'Difficulty',
                         decimalsInFloat: 0,
                         min: diffMin - (diffMin * 0.1),
-                        max: diffMax
+                        max: diffMax,
+                        labels: {
+                            show: false
+                        }
                     },
                     {
                         seriesName: 'Hashrate',
                         decimalsInFloat: 0,
                         opposite: false,
                         min: hashMin,
-                        max: hashMax + (hashMax * 0.1)
+                        max: hashMax + (hashMax * 0.1),
+                        labels: {
+                            show: false
+                        }
                     },
                     {
                         seriesName: 'BlockTime',
                         decimalsInFloat: 0,
-                        opposite: true
+                        opposite: true,
+                        labels: {
+                            show: false
+                        }
                     }
                 ],
                 series: [chartData.difficulties, chartData.hashrates, chartData.blockTimes]

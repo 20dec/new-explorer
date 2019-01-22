@@ -1,4 +1,4 @@
-/* ============================================================================================== *
+<!-- ============================================================================================ *
  *                                                                                                *
  *                                       Xi Block Explorer                                        *
  *                                                                                                *
@@ -19,31 +19,45 @@
  * You should have received a copy of the GNU General Public License along with this program.     *
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
- * ============================================================================================== */
+ * ============================================================================================ -->
+<template>
+    <div class="page-error">
+        <i class="fas fa-exclamation-triangle error-icon"></i>
+        <span class="error-message">{{ errorMsg }}</span>
+    </div>
+</template>
 
-import BlockchainService from '@/services/Blockchain';
-import { App as appConfig } from '@/config';
-import { Coin as coinConfig } from '@/config';
-
-const scanCounts = [30, 60, 90];
-const dateFormat = 'L LTS';
-const state = {
-    dateFormat: dateFormat,
-    updateInterval: appConfig.pollingIntervalSeconds * 1000,
-    coinConfig: coinConfig,
-    scanCounts: scanCounts,
-    scanCount: scanCounts[0],
-    blockHeight: 0,
-    scanHeight: 0,
-    networkInfo: {},
-    latestBlocks: [],
-    transactionPool: [],
-    blockService: new BlockchainService(),
-    loading: {
-        info: false,
-        txPool: false,
-        blocks: false
+<script>
+export default {
+    name: 'page-error',
+    props: {
+        errorMsg: String
     }
 };
+</script>
 
-export default state;
+<style scoped>
+.page-error {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    -webkit-animation: fadein 0.3s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.3s; /* Firefox < 16 */
+    -ms-animation: fadein 0.3s; /* Internet Explorer */
+    -o-animation: fadein 0.3s; /* Opera < 12.1 */
+    animation: fadein 0.3s;
+}
+.error-icon {
+    font-size: 48px;
+}
+.error-message {
+    font-size: 18px;
+    padding-top: 16px;
+}
+</style>

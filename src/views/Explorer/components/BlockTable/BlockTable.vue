@@ -33,9 +33,9 @@
         </div>
         <div class="table-row" v-for="block in blocks">
             <span class="col height">{{ block.height }}</span>
-            <span class="col timestamp">2019.01.12 05:45:33 PM</span>
+            <span class="col timestamp">{{ localTimestamp(block.timestamp) }}</span>
             <span class="col block-hash link">
-                <router-link :to="{ path: 'detail/' + block.hash }" class="detail-link">
+                <router-link :to="{ name: 'detail', params: { param: block.hash }}" class="detail-link">
                     {{ block.hash }}
                 </router-link>
             </span>
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
+import moment from 'moment';
 
 export default {
     name: 'blockTable',
@@ -58,16 +59,15 @@ export default {
     },
     computed: {
         ...mapState({
+            dateFormat: state => state.explorer.dateFormat,
             blocks: state => state.explorer.latestBlocks
         }),
-        ...mapGetters({
-
-        })
     },
     methods: {
-        ...mapActions({
+        localTimestamp: function (timestamp) {
 
-        })
+            return moment.unix(timestamp).format(this.dateFormat);
+        }
     }
 };
 </script>
@@ -80,7 +80,7 @@ export default {
     width: 90px;
 }
 .col.timestamp {
-    width: 140px;
+    width: 190px;
 }
 .col.block-size {
     width: 80px;

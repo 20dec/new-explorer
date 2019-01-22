@@ -23,40 +23,385 @@
 <template>
     <div class="detail-page">
 
+        <!-- Loading -->
+        <page-loading v-if="loading"></page-loading>
+
+        <!-- Error Message -->
+        <page-error v-if="errorMsg" :errorMsg="errorMsg"></page-error>
+
+        <!-- Transaction -->
+        <div class="flex column detail-section" v-if="result.tx">
+            <div class="section-header">
+                <i class="fas fa-fw fa-exchange-alt"></i>
+                <span>Transaction</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="flex column px3">
+                <div class="flex row section-row">
+                    <span class="label">Hash:</span>
+                    <span>{{ result.txDetails.hash }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Confirmations:</span>
+                    <span>{{ result.confirmations }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Fee:</span>
+                    <span>{{ fromAtomic(result.txDetails.fee) }} {{ coinConfig.coinTicker}}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Output Sum:</span>
+                    <span>{{ fromAtomic(result.txDetails.amount_out) }} {{ coinConfig.coinTicker}}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Mixin:</span>
+                    <span>{{ result.txDetails.mixin }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Size:</span>
+                    <span>{{ result.txDetails.size }}</span>
+                </div>
+                <div class="flex row section-row" v-if="result.txDetails.paymentId">
+                    <span class="label">Payment Id:</span>
+                    <span>{{ result.txDetails.paymentId }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Unlock Height:</span>
+                    <span>{{ result.tx.unlockHeight }}</span>
+                    <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction Block -->
+        <div class="flex column detail-section" v-if="result.block">
+            <div class="section-header">
+                <i class="fas fa-fw fa-cube"></i>
+                <span>Block</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="flex column px3">
+                <div class="flex row section-row">
+                    <span class="label">Hash:</span>
+                    <router-link v-if="result.tx" class="detail-link"
+                        :to="{ name: 'detail', params: { param: result.block.hash }}">
+                        {{ result.block.hash }}
+                    </router-link>
+                    <span v-else>{{ result.block.hash }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Height:</span>
+                    <span>{{ result.block.height }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">Timestamp:</span>
+                    <span>{{ result.timestamp }}</span>
+                </div>
+                <div class="flex row section-row">
+                    <span class="label">TX Count:</span>
+                    <span>{{ result.block.tx_count }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tx Inputs -->
+        <div class="flex column detail-section" v-if="result.tx && result.tx.vin">
+            <div class="section-header">
+                <i class="fas fa-fw fa-sign-in-alt"></i>
+                <span>Inputs</span>
+                <span>({{ result.tx.vin.length }})</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="table-row header">
+                <span class="col amount">Amount</span>
+                <span class="col block-hash">Key</span>
+            </div>
+            <div class="table-row" v-for="input in result.tx.vin">
+                <span v-if="input.value.amount" class="col amount">{{ fromAtomic(input.value.amount) }} {{ coinConfig.coinTicker }}</span>
+                <span v-else class="col amount">-</span>
+                <span v-if="input.value.k_image" class="col block-hash">{{ input.value.k_image }}</span>
+                <span v-else class="col block-hash">Block Reward</span>
+            </div>
+        </div>
+
+        <!-- Tx Outputs -->
+        <div class="flex column detail-section" v-if="result.tx && result.tx.vout">
+            <div class="section-header">
+                <i class="fas fa-fw fa-sign-out-alt"></i>
+                <span>Outputs</span>
+                <span>({{ result.tx.vout.length }})</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="table-row header">
+                <span class="col amount">Amount</span>
+                <span class="col block-hash">Key</span>
+            </div>
+            <div class="table-row" v-for="output in result.tx.vout">
+                <span class="col amount">{{ fromAtomic(output.amount) }} {{ coinConfig.coinTicker }}</span>
+                <span class="col block-hash">{{ output.target.data.key }}</span>
+            </div>
+        </div>
+
+        <!-- Block Transactions -->
+        <div class="flex column detail-section" v-if="result.block && !result.tx">
+            <div class="section-header">
+                <i class="fas fa-fw fa-exchange-alt"></i>
+                <span>Transactions</span>
+                <span>({{ result.block.transactions.length }})</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="table-row header">
+                <span class="col tx-hash">TX Hash</span>
+                <span class="col tx-amount">Amount</span>
+                <span class="col tx-fee">Fee</span>
+                <span class="col tx-size">Size</span>
+            </div>
+            <div class="table-row" v-for="tx in result.block.transactions">
+                <router-link class="col tx-hash detail-link"
+                    :to="{ name: 'detail', params: { param: tx.hash }}">
+                    {{ tx.hash }}
+                </router-link>
+                <span class="col tx-amount">{{ fromAtomic(tx.amount_out) }} {{ coinConfig.coinTicker }}</span>
+                <span class="col tx-fee">{{ fromAtomic(tx.fee) }}  {{ coinConfig.coinTicker }}</span>
+                <span class="col tx-size">{{ tx.size }}</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'detail',
-        props: {
-            param: undefined
-        },
-        data () {
-            return {
-                scrollPosition: 0
-            }
-        },
-        mounted: function () {
+import { mapActions, mapGetters, mapState } from 'vuex';
+import PageError from '@/components/PageError';
+import PageLoading from '@/components/PageLoading';
+import moment from 'moment';
 
-            console.log('param', this.param);
-        },
-        computed: {
-            isScrolled () {
-
-                return 5;
-            }
+export default {
+    name: 'detail',
+    components: {
+        'page-error': PageError,
+        'page-loading': PageLoading
+    },
+    props: {
+        param: undefined
+    },
+    data () {
+        return {
+            loading: true,
+            errorMsg: '',
+            result: {}
+        };
+    },
+    watch: {
+        'param': function (id) {
+            this.doSearch();
         }
-    };
+    },
+    mounted: function () {
+
+        this.doSearch();
+    },
+    computed: {
+        ...mapState({
+            coinConfig: state => state.explorer.coinConfig,
+            dateFormat: state => state.explorer.dateFormat,
+            blockHeight: state => state.explorer.blockHeight,
+            blockService: state => state.explorer.blockService
+        }),
+    },
+    methods: {
+        doSearch: function () {
+
+            this.loading = true;
+            this.errorMsg = '';
+            this.result = {};
+
+            console.log(this.param);
+            // Return if no param.
+            if (!this.param) {
+
+                return this.setError('');
+            }
+
+            // Check if hash.
+            if (this.param.length == 64) {
+
+                return this.findHash(this.param);
+            }
+
+            // Validate height.
+            if (isNaN(this.param)) {
+
+                return this.setError('Invalid height');
+            }
+
+            // Get block hash from height.
+            let height = parseInt(this.param);
+            return this.findBlock(height);
+        },
+        localTimestamp: function (timestamp) {
+
+            return moment.unix(timestamp).format(this.dateFormat);
+        },
+        fromAtomic: function (amount) {
+
+            return (amount / this.coinConfig.coinUnits).toFixed(this.coinConfig.decimals);
+        },
+        unlockHeight: function (height, unlockBlocks) {
+
+            return height + unlockBlocks;
+        },
+        findBlock (height) {
+
+            this.blockService.getBlockHash(height).then((hash) => {
+
+                console.log('got hash', hash);
+                this.findHash(hash);
+            }).catch((err) => {
+
+                this.setError(err);
+            });
+        },
+        findHash (hash) {
+
+            return this.blockService.find(hash).then((result) => {
+
+                this.setResult(result);
+            }).catch((err) => {
+
+                this.setError(err);
+            });
+        },
+        setResult: function (result) {
+
+            if (!result || !result.block) {
+
+                return this.setError('No results found');
+            }
+
+            // Set calculated properties.
+            result.confirmations = this.blockHeight - result.block.height;
+            result.timestamp = this.localTimestamp(result.block.timestamp);
+
+            // Set extra transaction properties.
+            if (result.tx) {
+
+                // Set unlock_time in case it's not being used.
+                result.tx.unlock_time = result.tx.unlock_time || 0;
+                result.tx.unlockHeight = result.block.height + result.tx.unlock_time;
+                result.tx.unlocked = this.blockHeight > result.tx.unlockHeight;
+            } else {
+
+                this.blockResult = result;
+            }
+
+            // Set result.
+            this.loading = false;
+            this.errorMsg = '';
+            this.result = result;
+            console.log(result);
+        },
+        setError (errorMsg) {
+
+            // Not a valid height.
+            this.loading = false;
+            this.errorMsg = errorMsg;
+            this.result = {};
+        }
+    }
+};
 </script>
 
 <style scoped>
 .detail-page {
-    padding: 16px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 0;
     box-sizing: border-box;
+}
+.detail-section {
+    margin-bottom: 16px;
+    -webkit-animation: fadein 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.5s; /* Firefox < 16 */
+    -ms-animation: fadein 0.5s; /* Internet Explorer */
+    -o-animation: fadein 0.5s; /* Opera < 12.1 */
+    animation: fadein 0.5s;
+}
+.section-header {
+    font-size: 18px;
+}
+.section-header span {
+    font-size: 22px;
+}
+.section-row {
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+}
+.label {
+    width: 110px;
+    font-weight: 600;
+    padding-right: 8px;
+}
+.lock-icon {
+    padding-left: 8px;
+    font-size: 14px;
+    color: #FBB13C;
+}
+.detail-link {
+    font-weight: 400;
+    color: #6A6B70;
+    color: #2780E3 !important;
+    text-decoration: none;
+}
+.col {
+    flex-shrink: 0;
+}
+.col.amount {
+    min-width: 100px;
+    flex-grow: 1;
+    padding-right: 16px;
+}
+.col.block-hash {
+    min-width: 600px;
+    flex-grow: 3;
+    min-width: 600px;
+}
+.col.tx-hash {
+    min-width: 600px;
+    flex-grow: 3;
+    min-width: 600px;
+}
+.col.tx-amount {
+    width: 150px;
+}
+.col.tx-fee {
+    width: 120px;
+}
+.col.tx-size {
+    width: 120px;
+}
+.col.tx-hash {
+    min-width: 600px;
+    flex-grow: 1;
+}
+.table-row {
+    /*box-shadow: 0px -1px 0px rgba(153,153,153,0.3) inset;*/
+    padding: 8px 16px;
+    width: 100%;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: #1A1B20;
+}
+.table-row.header {
+    font-weight: 600;
+    color: #2A2B30;
+}
+.right {
+    text-align: right !important;
 }
 </style>
