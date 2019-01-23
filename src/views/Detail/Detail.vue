@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Transaction Block -->
+        <!-- Block -->
         <div class="flex column detail-section" v-if="result.block">
             <div class="section-header">
                 <i class="fas fa-fw fa-cube"></i>
@@ -91,15 +91,33 @@
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Height:</span>
-                    <span>{{ result.block.height }}</span>
+                    <span class="value">{{ result.block.height }}</span>
+                    <span class="label" v-if="result.block.difficulty">Difficulty:</span>
+                    <span class="value" v-if="result.block.difficulty">{{ result.block.difficulty }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Timestamp:</span>
-                    <span>{{ result.timestamp }}</span>
+                    <span class="value">{{ result.timestamp }}</span>
+                    <span class="label" v-if="result.block.blockSize">Size:</span>
+                    <span class="value" v-if="result.block.blockSize">{{ result.block.blockSize }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">TX Count:</span>
-                    <span>{{ result.block.tx_count }}</span>
+                    <span class="value">{{ result.block.tx_count || result.block.transactions.length }}</span>
+                    <span class="label" v-if="result.block.penalty || result.block.penalty == 0">Penalty:</span>
+                    <span class="value" v-if="result.block.penalty || result.block.penalty == 0">{{ result.block.penalty }}</span>
+                </div>
+                <div class="flex row section-row" v-if="result.block.transactionsCumulativeSize">
+                    <span class="label">TX Size:</span>
+                    <span class="value">{{ result.block.transactionsCumulativeSize }}</span>
+                    <span class="label" v-if="result.block.baseReward">Base Reward:</span>
+                    <span class="value" v-if="result.block.baseReward">{{ result.block.baseReward }}</span>
+                </div>
+                <div class="flex row section-row" v-if="result.block.totalFeeAmount || result.block.totalFeeAmount == 0">
+                    <span class="label">TX Fees:</span>
+                    <span class="value">{{ fromAtomic(result.block.totalFeeAmount) }} {{ coinConfig.coinTicker }}</span>
+                    <span class="label" v-if="result.block.reward">Block Reward:</span>
+                    <span class="value" v-if="result.block.reward">{{ result.block.reward }}</span>
                 </div>
             </div>
         </div>
@@ -342,6 +360,9 @@ export default {
     width: 110px;
     font-weight: 600;
     padding-right: 8px;
+}
+.value {
+    width: 400px;
 }
 .lock-icon {
     padding-left: 8px;
