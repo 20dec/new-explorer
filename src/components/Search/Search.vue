@@ -21,126 +21,96 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="explorer">
+    <div class="flex column search">
+        <div class="search-wrapper container">
 
-        <!-- Network stats -->
-        <div class="stats-wrapper back-dark">
-            <net-stats></net-stats>
-        </div>
+            <input type="text"
+                class="search-input"
+                v-model="searchTerm"
+                placeholder="search"
+                ref="search"/>
 
-        <!-- Search -->
-        <search></search>
+            <i v-on:click="clearSearch()"
+                v-if="searchTerm != ''"
+                class="fas fa-times-circle search-clear">
+            </i>
 
-        <!-- Transaction pool -->
-        <div class="section column container">
-            <div class="section-header">
-                <i class="fas fa-fw fa-exchange-alt"></i>
-                <span>Transaction Pool</span>
-                <div class="spacer"></div>
+            <div class="search-button" v-on:click="doSearch()">
+                <i class="fas fa-search input-icon"></i>
             </div>
-            <tx-pool></tx-pool>
-        </div>
-
-        <!-- Blocks -->
-        <div class="section column container">
-            <div class="section-header">
-                <i class="fas fa-fw fa-history"></i>
-                <span>Blocks</span>
-                <div class="spacer"></div>
-            </div>
-            <block-table></block-table>
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
-
-import Search from '@/components/Search';
-import BlockTable from './components/BlockTable';
-import NetStats from './components/NetStats';
-import TxPool from './components/TxPool';
-
 export default {
-    name: 'explorer',
-    components: {
-        'search': Search,
-        'block-table': BlockTable,
-        'net-stats': NetStats,
-        'tx-pool': TxPool
-    },
+    name: 'search',
     data () {
-        return {}
+        return {
+            searchTerm: ''
+        }
     },
     mounted: function () {
-    },
-    computed: {
-        ...mapState({
-            scanCounts: state => state.explorer.scanCounts,
-            scanCount: state => state.explorer.scanCount
-        }),
-        ...mapGetters({})
+
     },
     methods: {
-        ...mapActions({
-            setScanCount: 'explorer/setScanCount'
-        })
+        clearSearch () {
+
+            this.searchTerm = '';
+        },
+        doSearch () {
+
+            if (this.searchTerm == '') {
+                return;
+            }
+
+            let searchTerm = this.searchTerm;
+            this.searchTerm = '';
+            this.$router.push({ name: 'detail', params: { param: searchTerm } });
+        }
     }
 };
 </script>
 
 <style scoped>
-.explorer {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    flex-grow: 0;
-    flex-shrink: 0;
+.search {
     width: 100%;
+    background: linear-gradient(to bottom, #292F36 50%, rgba(0,0,0,0) 50%);
+    margin-bottom: 32px;
     align-items: center;
 }
-.stats-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+.search-wrapper {
+    width: 90%;
+    max-width: 800px;
+    background-color: #FFF;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 3px rgba(102,102,102,0.5);
+    border-radius: 24px;
+    padding-left: 16px;
 }
-.label {
-    padding: 0px 16px;
+.search-input {
+    font-size: 18px;
+    font-weight: 400;
+    border: 0px;
+    outline: none;
+    padding: 12px;
+    width: 100%;
 }
-.radio-group {
-    font-weight: 600;
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    color: #757780;
-    box-shadow: 0px 0px 1px rgba(0,0,0,0.1) inset;
+.search-button {
+    color: #28BBDB;
+    font-size: 24px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 24px;
 }
-.radio {
-    padding: 8px 12px;
+.search-button:hover {
+    color: #2EC4B6;
     cursor: pointer;
-    box-shadow: 0px 0px 1px rgba(0,0,0,0.1) inset;
 }
-.checked {
-    color: #2A2B30;
-    cursor: default !important;
+.search-clear {
+    padding: 8px;
+    font-size: 18px;
 }
-.table-row {
-    border-bottom: 1px solid #e0e0e0;
-    border-collapse: collapse;
-    padding-top: 2px;
-}
-.table-row.header {
-
-}
-.table-column {
-    flex-grow: 1;
-    flex-shrink: 0;
+.search-clear:hover {
+    color: #000;
 }
 </style>

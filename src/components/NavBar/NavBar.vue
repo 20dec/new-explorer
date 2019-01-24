@@ -21,7 +21,7 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="nav-bar">
+    <div class="nav-bar back-dark">
         <div class="nav-content">
             <!-- App logo -->
             <img class="site-logo"
@@ -29,13 +29,13 @@
                 src="@/assets/logo.png">
             <!-- Links -->
             <span class="app-title"></span>
-            <router-link to="/" class="nav-link" exact>
+            <router-link to="/" class="nav-link text-light" exact>
                 <div class="link-wrapper">
                     <i class="fas fa-fw fa-cube nav-icon"></i>
                     <span class="nav-text">Explorer</span>
                 </div>
             </router-link>
-            <router-link to="/paperWallet" class="nav-link" exact>
+            <router-link to="/paperWallet" class="nav-link text-light" exact>
                 <div class="link-wrapper">
                     <i class="fas fa-fw fa-wallet nav-icon"></i>
                     <span class="nav-text">Paper Wallet</span>
@@ -82,8 +82,7 @@ export default {
     align-items: stretch;
     justify-content: center;
     box-sizing: border-box;
-    background-color: #FCFDFE;
-    box-shadow: 0px -1px 1px rgba(102,102,102,0.2) inset;
+    /*box-shadow: 0px -1px 1px rgba(102,102,102,0.2) inset;*/
 }
 .nav-content {
     max-width: 1200px;
@@ -91,7 +90,7 @@ export default {
     flex-shrink: 0;
     flex-grow: 1;
     flex-direction: row;
-    padding: 8px 16px;
+    padding: 16px 16px;
     align-items: center;
     box-sizing: border-box;
 }
@@ -113,21 +112,20 @@ export default {
 .nav-link {
     font-size: 16px;
     font-weight: 600;
-    color: #757780;
     text-decoration: none;
     text-align: center;
     padding: 8px;
     height: 100%;
 }
 .nav-link:hover {
-    color: #494B55;
+    color: #D5DAD5;
 }
 .router-link-active, .router-link-exact-active {
     cursor: default !important;
-    color: #3891A6;
+    color: #2EC4B6;
 }
 .router-link-active:hover, .router-link-exact-active:hover {
-    color: #3891A6;
+    color: #2EC4B6;
 }
 .link-wrapper {
     height: 100%;

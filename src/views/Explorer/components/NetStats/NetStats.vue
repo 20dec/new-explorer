@@ -21,44 +21,58 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="flex column">
+    <div class="flex container net-stats">
+
         <!-- Summary -->
-        <div class="flex row totals">
-            <div class="spacer"></div>
-            <div class="flex column center total">
-                <span>{{ blockHeight }}</span>
-                <span class="label">Height</span>
+        <div class="flex column stats text-light">
+            <div class="flex row stats-row height">
+                <span class="label height">Network height</span>
+                <span class="spacer"></span>
+                <span class="value height">{{ blockHeight }}</span>
             </div>
-            <div class="spacer"></div>
-            <div class="flex column center total">
-                <span>{{ networkInfo.difficulty }}</span>
+            <div class="divider"></div>
+            <span class="stats-subheader">Network stats</span>
+            <div class="flex row stats-row">
                 <span class="label">Difficulty</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.difficulty }}</span>
             </div>
-            <div class="spacer"></div>
-            <div class="flex column center total">
-                <span>{{ networkInfo.hashrate }} H/s</span>
+            <div class="flex row stats-row">
                 <span class="label">Hashrate</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.hashrate }} H/s</span>
             </div>
-            <div class="spacer" v-if="netStats.solveTimes"></div>
-            <div class="flex column center total" v-if="netStats.solveTimes">
-                <span>{{ netStats.solveTimes.avg }}</span>
+            <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Avg. Solve Time</span>
+                <span class="spacer"></span>
+                <span class="value">{{ netStats.solveTimes.avg }} sec</span>
             </div>
-            <div class="spacer"></div>
+            <div class="flex row stats-row" v-if="netStats.solveTimes">
+                <span class="label">Total Transactions</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.tx_count }}</span>
+            </div>
+            <div class="divider"></div>
+            <span class="stats-subheader">Supply</span>
+            <div class="flex row stats-row" v-if="netStats.solveTimes">
+                <span class="label">Circulating</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.circulatingCoins }} {{ coinConfig.coinTicker }}</span>
+            </div>
+            <div class="flex row stats-row" v-if="netStats.solveTimes">
+                <span class="label">Emission</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.emission }} %</span>
+            </div>
+            <div class="flex row stats-row" v-if="netStats.solveTimes">
+                <span class="label">Block Reward</span>
+                <span class="spacer"></span>
+                <span class="value">{{ networkInfo.blockReward }} {{ coinConfig.coinTicker }}</span>
+            </div>
         </div>
         <!-- Diff/hash Chart -->
-        <div class="flex column chart-wrapper">
+        <div class="chart-wrapper">
             <div id="netChart" class="chart-ele"></div>
-        </div>
-        <div class="flex row">
-            <div class="flex column center total sub" v-if="networkInfo.blockReward">
-                <span>{{ networkInfo.blockReward }}</span>
-                <span class="label">Block Reward</span>
-            </div>
-            <div class="flex column center total sub" v-if="networkInfo.circulatingCoins">
-                <span>{{ networkInfo.circulatingCoins }}</span>
-                <span class="label">Circulating Supply</span>
-            </div>
         </div>
     </div>
 </template>
@@ -78,12 +92,18 @@ export default {
                 },
                 chart: {
                     height: 300,
+                    width: '100%',
                     type: 'line',
                     stacked: false,
-                    fontFamily: "'Muli', Helvetica, Arial, sans-serif",
+                    fontFamily: "'Source Sans Pro', Helvetica, Arial, sans-serif",
+                    foreColor: '#FEFEFE',
                     sparkline: {
-                        enabled: false,
+                        enabled: false
                     }
+                },
+                grid: {
+                    borderColor: '#3B4047',
+                    position: 'back',
                 },
                 yaxis: [
                     { },
@@ -103,7 +123,7 @@ export default {
                     },
                 },
                 markers: {
-                    size: 1,
+                    size: 2,
                     strokeWidth: 0
                 },
                 stroke: {
@@ -112,6 +132,20 @@ export default {
                     colors: undefined,
                     width: 3,
                     dashArray: 0,
+                },
+                legend: {
+                    fontFamily: "'Source Sans Pro', Helvetica, Arial, sans-serif",
+                    position: 'top',
+                    labels: {
+                        colors: ['#FFF'],
+                        useSeriesColors: false
+                    },
+                    itemMargin: {
+                        vertical: 10 // Actually horizontal margins.
+                    },
+                    onItemClick: {
+                        toggleDataSeries: false
+                    },
                 }
             }
         }
@@ -122,6 +156,7 @@ export default {
     },
     computed: {
         ...mapState({
+            coinConfig: state => state.explorer.coinConfig,
             blockHeight: state => state.explorer.blockHeight,
             networkInfo: state => state.explorer.networkInfo,
             blocks: state => state.explorer.blocks,
@@ -156,113 +191,101 @@ export default {
 </script>
 
 <style scoped>
-.col {
-    flex-shrink: 0;
+.net-stats {
+    flex-direction: row;
+    padding: 8px 0px 16px 0px;;
+    flex-wrap: wrap;
 }
-.col.tx-amount {
-    width: 150px;
-}
-.col.tx-fee {
-    width: 120px;
-}
-.col.tx-size {
-    width: 120px;
-}
-.col.tx-hash {
-    min-width: 600px;
-    flex-grow: 1;
-}
-.table-row {
-    box-shadow: 0px -1px 0px rgba(153,153,153,0.3) inset;
-    padding: 8px 16px;
+.divider {
     width: 100%;
-    display: flex;
+    margin: 4px 0px;
+    height: 1px;
+}
+.stats {
     flex-grow: 0;
     flex-shrink: 0;
-    box-sizing: border-box;
-    flex-direction: row;
+    padding: 4px 16px;
     flex-wrap: wrap;
-    color: #1A1B20;
+    /*background-color: #2A2B30;*/
+    width: 350px;
 }
-.table-row.header {
-    font-weight: 700;
-    color: #2A2B30;
+.stats-subheader {
+    padding-top: 8px;
+    color: #2EC4B6;
+    font-size: 14px;
+    font-weight: 600;
+}
+.stats-row {
+    font-weight: 600;
+    padding: 4px 0px;
+}
+.stats-row.height {
+    align-items: baseline;
+    padding: 4px 0px 0px 0px;
 }
 .label {
-    font-size: 14px;
-    color: #2A2B30;
+    font-size: 18px;
+    color: #F2F2F2;
     font-weight: 400;
 }
-.total {
-    /*font-size: 24px;*/
-    font-size: 1.9vw;
-    padding: 8px 8px;
-    font-weight: 600;
-    color: #2780E3;
+.label.height {
+    font-size: 24px;
+}
+.value {
+    font-size: 18px;
+    padding-left: 32px;
+}
+.value.height {
+    font-size: 26px;
+    padding: 0px;
 }
 .total.sub {
     font-size: 1.8vw;
 }
-.totals {
-    padding: 4px 0px 8px 0px;
-    flex-wrap: wrap;
-}
 .chart-wrapper {
-    padding: 0px 16px;
-
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: calc(100% - 350px);
+    min-width: 350px;
 }
-.chart-ele {
+#netChart {
     width: 100%;
+    max-width: 100%;
     display: inline-block;
+    box-sizing: border-box;
+    margin: 16px 32px;
 }
 @media all and (orientation:portrait) {
 
 }
 @media all and (max-width: 599px) {
     .total {
-        font-weight: 600;
-        font-size: 14px;
-        padding: 8px 8px;
-    }
-    .total.sub {
-        font-size: 14px;
+
     }
     .label {
-        font-size: 12px;
+        display: inline-block;
     }
 }
 @media all and (min-width: 600px) {
     .total {
-        font-weight: 600;
-        font-size: 18px;
-        padding: 8px 8px;
-    }
-    .total.sub {
-        font-size: 16px;
+
     }
     .label {
-        font-size: 12px;
+
     }
 }
 @media all and (min-width: 1100px) {
     .total {
-        /*font-size: 24px;*/
-        font-size: 24px;
-        padding: 8px 8px;
-        font-weight: 600;
-        color: #2780E3;
-    }
-    .total.sub {
-        font-size: 20px;
+
     }
     .label {
-        font-size: 14px;
+
     }
 }
 @media all and (min-width: 1200px) {
-    .right {
-        text-align: right !important;
-    }
+
 }
 @media all and (min-width: 1600px) {
 

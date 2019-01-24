@@ -67,6 +67,12 @@ body {
     margin: 0px;
     padding: 0px;
 }
+.back-dark {
+    background-color: #292F36;
+}
+.text-light {
+    color: #F5FAF5;
+}
 .main-wrapper {
     width: 100%;
     display: flex;
@@ -76,10 +82,17 @@ body {
     background-color: #FAFBFC;
 }
 .main-content {
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     width: 100%;
     display: flex;
     flex-grow: 1;
+}
+.container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 @media all and (orientation:portrait) {
 
@@ -92,11 +105,17 @@ body {
 }
 @media all and (min-width: 1600px) {
     .main-content {
+        /*max-width: 1400px;*/
+    }
+    .container {
         max-width: 1400px;
     }
 }
 @media all and (min-width: 1800px) {
     .main-content {
+        /*max-width: 1600px;*/
+    }
+    .container {
         max-width: 1600px;
     }
 }

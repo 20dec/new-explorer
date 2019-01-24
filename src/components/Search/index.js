@@ -21,39 +21,4 @@
  *                                                                                                *
  * ============================================================================================== */
 
-const mutations = {
-    setLoading: (state, prop, isLoading) => {
-        state.loading = isLoading;
-    },
-    setScanCount: (state, scanCount) => {
-        state.scanCount = scanCount;
-    },
-    setNetworkInfo: (state, info) => {
-        state.blockHeight = info.height;
-        state.networkInfo = info;
-    },
-    setNetworkStats: (state, block) => {
-
-        console.log('setting network stats', block);
-
-        let coinUnits = state.coinConfig.coinUnits;
-        let decimals = state.coinConfig.decimals;
-        let totalSupply = state.coinConfig.totalSupply;
-
-        let networkInfo = {
-            blockReward: (block.baseReward / coinUnits).toFixed(decimals),
-            circulatingCoins: (block.alreadyGeneratedCoins / coinUnits).toFixed(decimals),
-            totalTransactions: block.alreadyGeneratedTransactions,
-            emission: (block.alreadyGeneratedCoins / totalSupply * 100).toFixed(2)
-        };
-        state.networkInfo = { ...state.networkInfo, ...networkInfo};
-    },
-    setBlocks: (state, blocks) => {
-        state.latestBlocks = blocks;
-    },
-    setTxPool: (state, txPool) => {
-        state.transactionPool = txPool;
-    }
-};
-
-export default mutations;
+export { default } from './Search.vue';

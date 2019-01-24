@@ -30,6 +30,7 @@ const getters = {
 
         let chartData = blocks.reduce((series, block) => {
 
+            // Difficulties
             series.difficulties.data.push({
                 x: block.height,
                 y: block.difficulty
@@ -39,6 +40,18 @@ const getters = {
             series.hashrates.data.push({
                 x: block.height,
                 y: block.difficulty / blockTarget
+            });
+
+            // Block Sizes
+            series.blockSizes.data.push({
+                x: block.height,
+                y: block.cumul_size
+            });
+
+            // Tx Counts
+            series.txCounts.data.push({
+                x: block.height,
+                y: block.tx_count
             });
 
             // Solve time
@@ -54,7 +67,9 @@ const getters = {
         }, {
                 difficulties: { name: 'Difficulty', data: [] },
                 hashrates: { name: 'Hashrate', data: []},
-                blockTimes: { name: 'BlockTime', data: [], type: 'column' }
+                blockTimes: { name: 'BlockTime', data: [], type: 'column' },
+                blockSizes: { name: 'BlockSize', data: [], type: 'column' },
+                txCounts: { name: 'TxCount', data: [], type: 'column' }
             }
         );
         let diffs = chartData.difficulties.data.map(d => d.y);
@@ -117,7 +132,11 @@ const getters = {
                         }
                     }
                 ],
-                series: [chartData.difficulties, chartData.hashrates, chartData.blockTimes]
+                series: [
+                    chartData.difficulties,
+                    chartData.hashrates,
+                    chartData.blockTimes
+                ]
             }
 
         };

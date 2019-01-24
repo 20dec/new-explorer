@@ -30,7 +30,7 @@
         <page-error v-if="errorMsg" :errorMsg="errorMsg"></page-error>
 
         <!-- Transaction -->
-        <div class="flex column detail-section" v-if="result.tx">
+        <div class="flex column container detail-section" v-if="result.tx">
             <div class="section-header">
                 <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Transaction</span>
@@ -39,7 +39,7 @@
             <div class="flex column px3">
                 <div class="flex row section-row">
                     <span class="label">Hash:</span>
-                    <span>{{ result.txDetails.hash }}</span>
+                    <span class="hash-value">{{ result.txDetails.hash }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Confirmations:</span>
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Block -->
-        <div class="flex column detail-section" v-if="result.block">
+        <div class="flex column container detail-section" v-if="result.block">
             <div class="section-header">
                 <i class="fas fa-fw fa-cube"></i>
                 <span>Block</span>
@@ -83,11 +83,11 @@
             <div class="flex column px3">
                 <div class="flex row section-row">
                     <span class="label">Hash:</span>
-                    <router-link v-if="result.tx" class="detail-link"
+                    <router-link v-if="result.tx" class="detail-link hash-value"
                         :to="{ name: 'detail', params: { param: result.block.hash }}">
                         {{ result.block.hash }}
                     </router-link>
-                    <span v-else>{{ result.block.hash }}</span>
+                    <span v-else class="hash-value">{{ result.block.hash }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Height:</span>
@@ -123,7 +123,7 @@
         </div>
 
         <!-- Tx Inputs -->
-        <div class="flex column detail-section" v-if="result.tx && result.tx.vin">
+        <div class="flex column container detail-section" v-if="result.tx && result.tx.vin">
             <div class="section-header">
                 <i class="fas fa-fw fa-sign-in-alt"></i>
                 <span>Inputs</span>
@@ -143,7 +143,7 @@
         </div>
 
         <!-- Tx Outputs -->
-        <div class="flex column detail-section" v-if="result.tx && result.tx.vout">
+        <div class="flex column container detail-section" v-if="result.tx && result.tx.vout">
             <div class="section-header">
                 <i class="fas fa-fw fa-sign-out-alt"></i>
                 <span>Outputs</span>
@@ -161,7 +161,7 @@
         </div>
 
         <!-- Block Transactions -->
-        <div class="flex column detail-section" v-if="result.block && !result.tx">
+        <div class="flex column container detail-section" v-if="result.block && !result.tx">
             <div class="section-header">
                 <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Transactions</span>
@@ -337,6 +337,7 @@ export default {
     flex-grow: 1;
     flex-shrink: 0;
     box-sizing: border-box;
+    align-items: center;
 }
 .detail-section {
     margin-bottom: 16px;
@@ -388,11 +389,6 @@ export default {
     flex-grow: 3;
     min-width: 600px;
 }
-.col.tx-hash {
-    min-width: 600px;
-    flex-grow: 3;
-    min-width: 600px;
-}
 .col.tx-amount {
     width: 150px;
 }
@@ -403,7 +399,7 @@ export default {
     width: 120px;
 }
 .col.tx-hash {
-    min-width: 600px;
+
     flex-grow: 1;
 }
 .table-row {
@@ -424,5 +420,42 @@ export default {
 }
 .right {
     text-align: right !important;
+}
+@media all and (orientation:portrait) {
+
+}
+@media all and (max-width: 599px) {
+    .section-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .lock-icon {
+        padding-left: 0px;
+    }
+    .col.block-hash {
+        display:table;
+        white-space:normal;
+    }
+    .col.tx-hash {
+        min-width: 100px;
+    }
+    .hash-value {
+        max-width: 100vw !important;
+    }
+    .table-row {
+        max-width: 100vw;
+    }
+}
+@media all and (min-width: 600px) {
+
+}
+@media all and (min-width: 1600px) {
+
+}
+@media all and (min-width: 1800px) {
+
+}
+@media all and (min-width: 2200px) {
+
 }
 </style>
