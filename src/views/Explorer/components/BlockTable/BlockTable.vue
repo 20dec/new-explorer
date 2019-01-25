@@ -35,7 +35,7 @@
             <span class="col height">{{ block.height }}</span>
             <span class="col timestamp">{{ localTimestamp(block.timestamp) }}</span>
             <span class="col block-hash link">
-                <router-link :to="{ name: 'detail', params: { param: block.hash }}" class="detail-link">
+                <router-link :to="{ name: 'detail', params: { param: block.hash }}" class="detail-link mono">
                     {{ block.hash }}
                 </router-link>
             </span>
@@ -115,7 +115,7 @@ export default {
     text-align: center;
 }
 .detail-link {
-    font-weight: 600;
+    max-width: 100vw;
     color: #6A6B70;
     color: #2780E3 !important;
     text-decoration: none;

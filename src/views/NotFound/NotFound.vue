@@ -1,4 +1,4 @@
-/* ============================================================================================== *
+<!-- ============================================================================================ *
  *                                                                                                *
  *                                       Xi Block Explorer                                        *
  *                                                                                                *
@@ -19,43 +19,55 @@
  * You should have received a copy of the GNU General Public License along with this program.     *
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
- * ============================================================================================== */
-import Vue from 'vue';
-import Router from 'vue-router';
+ * ============================================================================================ -->
+<template>
+    <div class="not-found back-dark">
+        <span class="not-found-message">404</span>
+    </div>
+</template>
 
-import Explorer from '@/views/Explorer';
-import Detail from '@/views/Detail';
-import PaperWallet from '@/views/PaperWallet';
-import NotFound from '@/views/NotFound';
+<script>
+import NotFoundImage from '@/assets/not-found.png';
 
-Vue.use(Router);
-
-export default new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes: [
-        {
-            path: '/',
-            name: 'explorer',
-            component: Explorer
-        },
-        {
-            path: '/detail/:param',
-            props: true,
-            name: 'detail',
-            component: Detail
-        },
-        {
-            path: '/paperWallet',
-            name: 'paperWallet',
-            component: PaperWallet
-        },
-        {
-            path: '*',
-            component: NotFound,
-            meta: {
-                title: 'Not Found'
-            }
+export default {
+    name: 'notFound',
+    data () {
+        return {
+            notFoundImage: NotFoundImage
         }
-    ]
-});
+    },
+    mounted: function () {
+
+    },
+    methods: {
+        generate () {
+
+        }
+    }
+};
+</script>
+
+<style scoped>
+.not-found {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.not-found-message {
+    font-size: 16vw;
+    padding-bottom: 64px;
+    font-weight: 600;
+    color: #C9CAC9;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+}
+</style>

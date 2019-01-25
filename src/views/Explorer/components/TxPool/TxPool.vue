@@ -54,7 +54,7 @@
             <span class="col tx-size center">Size</span>
         </div>
         <div class="table-row" v-for="tx in txPool.transactions">
-            <span class="col tx-hash">{{ tx.hash }}</span>
+            <span class="col tx-hash mono">{{ tx.hash }}</span>
             <span class="col tx-amount center">{{ tx.amountDisplay }}</span>
             <span class="col tx-fee center">{{ tx.feeDisplay }}</span>
             <span class="col tx-size center">{{ tx.size }}</span>

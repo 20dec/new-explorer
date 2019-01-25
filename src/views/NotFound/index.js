@@ -20,42 +20,4 @@
  * If not, see <https://www.gnu.org/licenses/>.                                                   *
  *                                                                                                *
  * ============================================================================================== */
-import Vue from 'vue';
-import Router from 'vue-router';
-
-import Explorer from '@/views/Explorer';
-import Detail from '@/views/Detail';
-import PaperWallet from '@/views/PaperWallet';
-import NotFound from '@/views/NotFound';
-
-Vue.use(Router);
-
-export default new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes: [
-        {
-            path: '/',
-            name: 'explorer',
-            component: Explorer
-        },
-        {
-            path: '/detail/:param',
-            props: true,
-            name: 'detail',
-            component: Detail
-        },
-        {
-            path: '/paperWallet',
-            name: 'paperWallet',
-            component: PaperWallet
-        },
-        {
-            path: '*',
-            component: NotFound,
-            meta: {
-                title: 'Not Found'
-            }
-        }
-    ]
-});
+export { default } from './NotFound.vue';

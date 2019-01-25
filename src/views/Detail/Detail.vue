@@ -35,7 +35,7 @@
                 <div class="flex column px3">
                     <div class="flex row section-row">
                         <span class="label">Hash:</span>
-                        <span class="hash-value">{{ result.txDetails.hash }}</span>
+                        <span class="hash-value mono">{{ result.txDetails.hash }}</span>
                     </div>
                     <div class="flex row section-row">
                         <span class="label">Confirmations:</span>
@@ -79,11 +79,11 @@
                 <div class="flex column px3">
                     <div class="flex row section-row">
                         <span class="label">Hash:</span>
-                        <router-link v-if="result.tx" class="detail-link hash-value"
+                        <router-link v-if="result.tx" class="detail-link hash-value mono"
                             :to="{ name: 'detail', params: { param: result.block.hash }}">
                             {{ result.block.hash }}
                         </router-link>
-                        <span v-else class="hash-value">{{ result.block.hash }}</span>
+                        <span v-else class="hash-value mono">{{ result.block.hash }}</span>
                     </div>
                     <div class="flex row section-row">
                         <span class="label">Height:</span>
@@ -140,11 +140,11 @@
             <div class="flex column px3">
                 <div class="flex row section-row">
                     <span class="label">Hash:</span>
-                    <router-link v-if="result.tx" class="detail-link hash-value"
+                    <router-link v-if="result.tx" class="detail-link hash-value mono"
                         :to="{ name: 'detail', params: { param: result.block.hash }}">
                         {{ result.block.hash }}
                     </router-link>
-                    <span v-else class="hash-value">{{ result.block.hash }}</span>
+                    <span v-else class="hash-value mono">{{ result.block.hash }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Height:</span>
@@ -194,7 +194,7 @@
             <div class="table-row" v-for="input in result.tx.vin">
                 <span v-if="input.value.amount" class="col amount">{{ fromAtomic(input.value.amount) }} {{ coinConfig.coinTicker }}</span>
                 <span v-else class="col amount">-</span>
-                <span v-if="input.value.k_image" class="col block-hash">{{ input.value.k_image }}</span>
+                <span v-if="input.value.k_image" class="col block-hash mono">{{ input.value.k_image }}</span>
                 <span v-else class="col block-hash">Block Reward</span>
             </div>
         </div>
@@ -213,7 +213,7 @@
             </div>
             <div class="table-row" v-for="output in result.tx.vout">
                 <span class="col amount">{{ fromAtomic(output.amount) }} {{ coinConfig.coinTicker }}</span>
-                <span class="col block-hash">{{ output.target.data.key }}</span>
+                <span class="col block-hash mono">{{ output.target.data.key }}</span>
             </div>
         </div>
 
@@ -232,7 +232,7 @@
                 <span class="col tx-size">Size</span>
             </div>
             <div class="table-row" v-for="tx in result.block.transactions">
-                <router-link class="col tx-hash detail-link"
+                <router-link class="col tx-hash detail-link mono"
                     :to="{ name: 'detail', params: { param: tx.hash }}">
                     {{ tx.hash }}
                 </router-link>

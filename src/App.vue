@@ -97,6 +97,9 @@ body {
     flex-grow: 0;
     flex-shrink: 0;
 }
+.mono {
+    font-family: 'Fira Mono', monospace;
+}
 @media all and (orientation:portrait) {
 
 }
