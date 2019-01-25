@@ -15,9 +15,7 @@ export default class BlockchainService {
 
     constructor () {
 
-        this.httpClient = axios.create({
-            baseURL: apiConfig.daemonAddress
-        });
+        this.httpClient = axios.create({ baseURL: apiConfig.daemonAddress });
     };
 
     /**
@@ -50,13 +48,10 @@ export default class BlockchainService {
 
         let rpcPayload = Object.assign({}, apiConfig.jsonRpcBase);
         rpcPayload.method = rpcMethods.getBlock;
-        rpcPayload.params = {
-            hash: hash
-        };
+        rpcPayload.params = { hash: hash };
 
         return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
-            console.log('got block', response.data);
             return response.data.result;
         }).catch((err) => {
 
@@ -72,6 +67,7 @@ export default class BlockchainService {
     getBlockHash (height) {
 
         if (height <= 0) {
+
             height = 1;
         }
 
@@ -81,9 +77,7 @@ export default class BlockchainService {
 
         return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
-            console.log('block hash result', response.data);
-            let blockHash = response.data.result;
-            return blockHash;
+            return response.data.result;
         }).catch((err) => {
 
             return Promise.reject(err);
@@ -103,9 +97,7 @@ export default class BlockchainService {
 
         let rpcPayload = Object.assign({}, apiConfig.jsonRpcBase);
         rpcPayload.method = rpcMethods.getBlocks;
-        rpcPayload.params = {
-            height: height
-        };
+        rpcPayload.params = { height: height };
 
         return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
@@ -131,9 +123,7 @@ export default class BlockchainService {
 
         let rpcPayload = Object.assign({}, apiConfig.jsonRpcBase);
         rpcPayload.method = rpcMethods.getTransaction;
-        rpcPayload.params = {
-            hash: hash
-        };
+        rpcPayload.params = { hash: hash };
 
         return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
@@ -178,7 +168,6 @@ export default class BlockchainService {
         // Try tx hash.
         return this.getTx(hash).then((result) => {
 
-            console.log('got tx', result);
             return Promise.resolve(result);
         }).catch((err) => {
 
