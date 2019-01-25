@@ -34,8 +34,6 @@ const mutations = {
     },
     setNetworkStats: (state, block) => {
 
-        console.log('setting network stats', block);
-
         let coinUnits = state.coinConfig.coinUnits;
         let decimals = state.coinConfig.decimals;
         let totalSupply = state.coinConfig.totalSupply;
