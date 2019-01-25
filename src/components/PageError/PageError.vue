@@ -43,7 +43,6 @@ export default {
     flex-shrink: 0;
     box-sizing: border-box;
     width: 100%;
-    height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;

@@ -24,7 +24,7 @@
     <div class="explorer">
 
         <!-- Network stats -->
-        <div class="stats-wrapper back-dark">
+        <div class="top-section back-dark">
             <net-stats></net-stats>
         </div>
 
@@ -98,17 +98,6 @@ export default {
     flex-shrink: 0;
     width: 100%;
     align-items: center;
-}
-.stats-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 3px rgba(102,102,102,0.5);
 }
 .label {
     padding: 0px 16px;

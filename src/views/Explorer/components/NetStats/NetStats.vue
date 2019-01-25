@@ -31,7 +31,7 @@
                 <span class="value height">{{ blockHeight }}</span>
             </div>
             <div class="divider"></div>
-            <span class="stats-subheader">Network stats</span>
+            <span class="stats-subheader color-accent">Network stats</span>
             <div class="flex row stats-row">
                 <span class="label">Difficulty</span>
                 <span class="spacer"></span>
@@ -53,7 +53,7 @@
                 <span class="value">{{ networkInfo.tx_count }}</span>
             </div>
             <div class="divider"></div>
-            <span class="stats-subheader">Supply</span>
+            <span class="stats-subheader color-accent">Supply</span>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Circulating</span>
                 <span class="spacer"></span>
@@ -206,12 +206,10 @@ export default {
     flex-shrink: 0;
     padding: 4px 16px;
     flex-wrap: wrap;
-    /*background-color: #2A2B30;*/
     width: 350px;
 }
 .stats-subheader {
     padding-top: 8px;
-    color: #2EC4B6;
     font-size: 14px;
     font-weight: 600;
 }

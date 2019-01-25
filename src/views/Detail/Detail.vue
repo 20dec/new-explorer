@@ -23,58 +23,115 @@
 <template>
     <div class="detail-page">
 
+        <div class="top-section back-dark text-light">
+
+            <!-- Transaction -->
+            <div class="flex column container detail-section" v-if="result.tx">
+                <div class="section-header">
+                    <i class="fas fa-fw fa-exchange-alt color-accent"></i>
+                    <span class="color-accent">Transaction</span>
+                    <div class="spacer"></div>
+                </div>
+                <div class="flex column px3">
+                    <div class="flex row section-row">
+                        <span class="label">Hash:</span>
+                        <span class="hash-value">{{ result.txDetails.hash }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Confirmations:</span>
+                        <span>{{ result.confirmations }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Fee:</span>
+                        <span>{{ fromAtomic(result.txDetails.fee) }} {{ coinConfig.coinTicker}}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Output Sum:</span>
+                        <span>{{ fromAtomic(result.txDetails.amount_out) }} {{ coinConfig.coinTicker}}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Mixin:</span>
+                        <span>{{ result.txDetails.mixin }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Size:</span>
+                        <span>{{ result.txDetails.size }}</span>
+                    </div>
+                    <div class="flex row section-row" v-if="result.txDetails.paymentId">
+                        <span class="label">Payment Id:</span>
+                        <span>{{ result.txDetails.paymentId }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Unlock Height:</span>
+                        <span>{{ result.tx.unlockHeight }}</span>
+                        <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block -->
+            <div class="flex column container detail-section" v-else-if="result.block">
+                <div class="section-header">
+                    <i class="fas fa-fw fa-cube color-accent"></i>
+                    <span class="color-accent">Block</span>
+                    <div class="spacer"></div>
+                </div>
+                <div class="flex column px3">
+                    <div class="flex row section-row">
+                        <span class="label">Hash:</span>
+                        <router-link v-if="result.tx" class="detail-link hash-value"
+                            :to="{ name: 'detail', params: { param: result.block.hash }}">
+                            {{ result.block.hash }}
+                        </router-link>
+                        <span v-else class="hash-value">{{ result.block.hash }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Height:</span>
+                        <span class="value">{{ result.block.height }}</span>
+                        <span class="label" v-if="result.block.difficulty">Difficulty:</span>
+                        <span class="value" v-if="result.block.difficulty">{{ result.block.difficulty }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">Timestamp:</span>
+                        <span class="value">{{ result.timestamp }}</span>
+                        <span class="label" v-if="result.block.blockSize">Size:</span>
+                        <span class="value" v-if="result.block.blockSize">{{ result.block.blockSize }}</span>
+                    </div>
+                    <div class="flex row section-row">
+                        <span class="label">TX Count:</span>
+                        <span class="value">{{ result.block.tx_count || result.block.transactions.length }}</span>
+                        <span class="label" v-if="result.block.penalty || result.block.penalty == 0">Penalty:</span>
+                        <span class="value" v-if="result.block.penalty || result.block.penalty == 0">{{ result.block.penalty }}</span>
+                    </div>
+                    <div class="flex row section-row" v-if="result.block.transactionsCumulativeSize">
+                        <span class="label">TX Size:</span>
+                        <span class="value">{{ result.block.transactionsCumulativeSize }}</span>
+                        <span class="label" v-if="result.block.baseReward">Base Reward:</span>
+                        <span class="value" v-if="result.block.baseReward">{{ result.block.baseReward }}</span>
+                    </div>
+                    <div class="flex row section-row" v-if="result.block.totalFeeAmount || result.block.totalFeeAmount == 0">
+                        <span class="label">TX Fees:</span>
+                        <span class="value">{{ fromAtomic(result.block.totalFeeAmount) }} {{ coinConfig.coinTicker }}</span>
+                        <span class="label" v-if="result.block.reward">Block Reward:</span>
+                        <span class="value" v-if="result.block.reward">{{ result.block.reward }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacer for search bar -->
+
+        </div>
+        <!-- Search -->
+        <search></search>
+
         <!-- Loading -->
         <page-loading v-if="loading"></page-loading>
 
         <!-- Error Message -->
         <page-error v-if="errorMsg" :errorMsg="errorMsg"></page-error>
 
-        <!-- Transaction -->
-        <div class="flex column container detail-section" v-if="result.tx">
-            <div class="section-header">
-                <i class="fas fa-fw fa-exchange-alt"></i>
-                <span>Transaction</span>
-                <div class="spacer"></div>
-            </div>
-            <div class="flex column px3">
-                <div class="flex row section-row">
-                    <span class="label">Hash:</span>
-                    <span class="hash-value">{{ result.txDetails.hash }}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Confirmations:</span>
-                    <span>{{ result.confirmations }}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Fee:</span>
-                    <span>{{ fromAtomic(result.txDetails.fee) }} {{ coinConfig.coinTicker}}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Output Sum:</span>
-                    <span>{{ fromAtomic(result.txDetails.amount_out) }} {{ coinConfig.coinTicker}}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Mixin:</span>
-                    <span>{{ result.txDetails.mixin }}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Size:</span>
-                    <span>{{ result.txDetails.size }}</span>
-                </div>
-                <div class="flex row section-row" v-if="result.txDetails.paymentId">
-                    <span class="label">Payment Id:</span>
-                    <span>{{ result.txDetails.paymentId }}</span>
-                </div>
-                <div class="flex row section-row">
-                    <span class="label">Unlock Height:</span>
-                    <span>{{ result.tx.unlockHeight }}</span>
-                    <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
-                </div>
-            </div>
-        </div>
-
         <!-- Block -->
-        <div class="flex column container detail-section" v-if="result.block">
+        <div class="flex column container detail-section" v-if="result.tx && result.block">
             <div class="section-header">
                 <i class="fas fa-fw fa-cube"></i>
                 <span>Block</span>
@@ -191,13 +248,15 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 import PageError from '@/components/PageError';
 import PageLoading from '@/components/PageLoading';
+import Search from '@/components/Search';
 import moment from 'moment';
 
 export default {
     name: 'detail',
     components: {
         'page-error': PageError,
-        'page-loading': PageLoading
+        'page-loading': PageLoading,
+        'search': Search
     },
     props: {
         param: undefined
@@ -249,7 +308,7 @@ export default {
             // Validate height.
             if (isNaN(this.param)) {
 
-                return this.setError('Invalid height');
+                return this.setError('Invalid  hash or height');
             }
 
             // Get block hash from height.
@@ -331,7 +390,6 @@ export default {
 
 <style scoped>
 .detail-page {
-    padding: 8px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

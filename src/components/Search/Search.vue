@@ -28,6 +28,7 @@
                 class="search-input"
                 v-model="searchTerm"
                 placeholder="search"
+                v-on:keyup.enter="doSearch()"
                 ref="search"/>
 
             <i v-on:click="clearSearch()"
@@ -77,6 +78,7 @@ export default {
     width: 100%;
     background: linear-gradient(to bottom, #292F36 50%, rgba(0,0,0,0) 50%);
     margin-bottom: 32px;
+    padding: 8px 0px;
     align-items: center;
 }
 .search-wrapper {

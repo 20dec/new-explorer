@@ -73,13 +73,16 @@ body {
 .text-light {
     color: #F5FAF5;
 }
+.color-accent {
+    color: #2EC4B6;
+}
 .main-wrapper {
     width: 100%;
     display: flex;
     flex-grow: 1;
     overflow-y: scroll;
     justify-content: center;
-    background-color: #FAFBFC;
+    background-color: #F3F3F5;
 }
 .main-content {
     /*max-width: 1200px;*/
@@ -191,8 +194,16 @@ body {
     padding: 8px;
     font-size: 18px;
 }
-.section-header i {
-
+.top-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 3px rgba(102,102,102,0.5);
 }
 /* Animation stuff */
 @keyframes fadein {
