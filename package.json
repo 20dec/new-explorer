@@ -19,7 +19,6 @@
   "dependencies": {
     "apexcharts": "^3.0.0",
     "axios": "^0.18.0",
-    "echarts": "^4.2.0-rc.2",
     "epic-spinners": "^1.0.4",
     "moment": "^2.23.0",
     "vue": "^2.5.21",

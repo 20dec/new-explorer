@@ -54,8 +54,9 @@ export default class BlockchainService {
             hash: hash
         };
 
-        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+        return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
+            console.log('got block', response.data);
             return response.data.result;
         }).catch((err) => {
 
@@ -78,9 +79,9 @@ export default class BlockchainService {
         rpcPayload.method = rpcMethods.getBlockHash;
         rpcPayload.params = [height];
 
-        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+        return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
-            console.log('block hash result', response.data.result);
+            console.log('block hash result', response.data);
             let blockHash = response.data.result;
             return blockHash;
         }).catch((err) => {
@@ -106,7 +107,7 @@ export default class BlockchainService {
             height: height
         };
 
-        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+        return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
             return response.data.result.blocks;
         }).catch((err) => {
@@ -134,7 +135,7 @@ export default class BlockchainService {
             hash: hash
         };
 
-        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+        return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
             return response.data.error ? Promise.reject(response.data.error) : response.data.result;
         }).catch((err) => {
@@ -152,7 +153,7 @@ export default class BlockchainService {
         let rpcPayload = Object.assign({}, apiConfig.jsonRpcBase);
         rpcPayload.method = rpcMethods.getTransactionPool;
 
-        return this.httpClient.post(apiConfig.apiJsonRpc, JSON.stringify(rpcPayload)).then((response) => {
+        return this.httpClient.post(apiConfig.apiJsonRpc, rpcPayload).then((response) => {
 
             return response.data.result.transactions;
         }).catch((err) => {
