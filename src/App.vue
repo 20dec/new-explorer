@@ -97,8 +97,12 @@ body {
     flex-grow: 0;
     flex-shrink: 0;
 }
+.break-word {
+    word-wrap: break-word;
+}
 .mono {
-    font-family: 'Fira Mono', monospace;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
 }
 @media all and (orientation:portrait) {
 
@@ -147,11 +151,23 @@ body {
     flex-direction: row;
     align-items: center;
 }
+.baseline {
+    align-items: baseline;
+}
 .column {
     flex-direction: column;
 }
 .column.center {
     align-items: center;
+}
+.pb1 {
+    padding-bottom: 4px;
+}
+.pb2 {
+    padding-bottom: 8px;
+}
+.pb3 {
+    padding-bottom: 16px;
 }
 .px3 {
     padding-left: 16px;

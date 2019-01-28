@@ -21,8 +21,69 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="paper-wallet">
-        Paper Wallet
+    <div class="paper-wallet py3">
+
+        <div class="section column container">
+            <div class="section-header">
+                <span style="font-size: 24px; padding: 0px;">Offline Wallet Generator</span>
+                <div class="spacer"></div>
+                <span v-on:click="generate()"
+                    class="generate-button">
+                    Generate
+                </span>
+            </div>
+        </div>
+
+        <div class="section column container" v-if="paperWallet && paperWallet.keys">
+            <div class="section-header">
+                <i class="far fa-fw fa-envelope"></i>
+                <span>Address</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="flex column wallet-content">
+                <span class="break-word">{{ paperWallet.keys.public_addr}}</span>
+            </div>
+        </div>
+
+        <div class="section column container" v-if="paperWallet && paperWallet.keys">
+            <div class="section-header">
+                <i class="fas fa-fw fa-key"></i>
+                <span>Public Keys</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="flex column wallet-content">
+                <div class="flex row pb2 wrap">
+                    <span class="key-label">View</span>
+                    <span class="mono break-word">{{ paperWallet.keys.view.pub}}</span>
+                </div>
+                <div class="flex row wrap">
+                    <span class="key-label">Spend</span>
+                    <span class="mono break-word">{{ paperWallet.keys.spend.pub}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section column container" v-if="paperWallet && paperWallet.keys">
+            <div class="section-header">
+                <i class="fas fa-fw fa-lock"></i>
+                <span>Secret</span>
+                <div class="spacer"></div>
+            </div>
+            <div class="flex column wallet-content">
+                <div class="flex row baseline pb3 wrap">
+                    <span class="key-label">Seed</span>
+                    <span class="mono">{{ paperWallet.mnemonic}}</span>
+                </div>
+                <div class="flex row baseline pb2 wrap">
+                    <span class="key-label">View</span>
+                    <span class="mono break-word">{{ paperWallet.keys.view.sec}}</span>
+                </div>
+                <div class="flex row baseline wrap">
+                    <span class="key-label">Spend</span>
+                    <span class="mono break-word">{{ paperWallet.keys.spend.sec}}</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -30,14 +91,27 @@
     export default {
         name: 'paperWallet',
         data () {
-            return {}
+            return {
+                paperWallet: {}
+            }
         },
         mounted: function () {
+
 
         },
         methods: {
             generate () {
 
+                this.paperWallet = {};
+
+                let seed = cnUtil.sc_reduce32(poor_mans_kdf(cnUtil.rand_32()));
+                let keys = cnUtil.create_address(seed);
+                let mnemonic = mn_encode(seed, "english");
+                this.paperWallet = {
+                    seed,
+                    keys,
+                    mnemonic
+                }
             }
         }
     };
@@ -45,6 +119,42 @@
 
 <style scoped>
 .paper-wallet {
-    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    align-items: center;
+}
+.generate-button {
+    cursor: pointer;
+    font-size: 18px;
+    padding: 8px 16px;
+    background-color: #2EC4B6;
+    color: #FEFEFE;
+    border-radius: 2px;
+    width: 100px;
+    text-align: center;
+}
+.generate-button:hover {
+
+}
+.wallet-content {
+    padding: 0px 16px 16px 16px;
+    font-size: 18px;
+    max-width: calc(100vw - 32px);
+}
+.wallet-content span {
+    max-width: calc(100vw - 32px);
+}
+.key-label {
+    min-width: 100px;
+    width: 100px;
+}
+
+@media all and (max-width: 700px) {
+    .wrap {
+        flex-wrap: wrap;
+    }
 }
 </style>

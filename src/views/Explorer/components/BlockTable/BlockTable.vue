@@ -35,7 +35,7 @@
             <span class="col height">{{ block.height }}</span>
             <span class="col timestamp">{{ localTimestamp(block.timestamp) }}</span>
             <span class="col block-hash link">
-                <router-link :to="{ name: 'detail', params: { param: block.hash }}" class="detail-link mono">
+                <router-link :to="{ name: 'detail', params: { param: block.hash }}" class="detail-link mono break-word">
                     {{ block.hash }}
                 </router-link>
             </span>
@@ -92,8 +92,8 @@ export default {
     width: 100px;
 }
 .col.block-hash {
-    min-width: 600px;
     flex-grow: 1;
+    max-width: calc(100vw - 32px);
 }
 .table-row {
     box-shadow: 0px -1px 0px rgba(153,153,153,0.3) inset;
@@ -130,7 +130,9 @@ export default {
 
 }
 @media all and (min-width: 600px) {
-
+    .col.block-hash {
+        min-width: 600px;
+    }
 }
 @media all and (min-width: 1200px) {
     .right {

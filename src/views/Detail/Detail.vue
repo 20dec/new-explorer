@@ -35,7 +35,7 @@
                 <div class="flex column px3">
                     <div class="flex row section-row">
                         <span class="label">Hash:</span>
-                        <span class="hash-value mono">{{ result.txDetails.hash }}</span>
+                        <span class="hash-value break-word">{{ result.txDetails.hash }}</span>
                     </div>
                     <div class="flex row section-row">
                         <span class="label">Confirmations:</span>
@@ -79,11 +79,7 @@
                 <div class="flex column px3">
                     <div class="flex row section-row">
                         <span class="label">Hash:</span>
-                        <router-link v-if="result.tx" class="detail-link hash-value mono"
-                            :to="{ name: 'detail', params: { param: result.block.hash }}">
-                            {{ result.block.hash }}
-                        </router-link>
-                        <span v-else class="hash-value mono">{{ result.block.hash }}</span>
+                        <span class="hash-value break-word">{{ result.block.hash }}</span>
                     </div>
                     <div class="flex row section-row">
                         <span class="label">Height:</span>
@@ -140,11 +136,10 @@
             <div class="flex column px3">
                 <div class="flex row section-row">
                     <span class="label">Hash:</span>
-                    <router-link v-if="result.tx" class="detail-link hash-value mono"
+                    <router-link class="detail-link hash-value break-word"
                         :to="{ name: 'detail', params: { param: result.block.hash }}">
                         {{ result.block.hash }}
                     </router-link>
-                    <span v-else class="hash-value mono">{{ result.block.hash }}</span>
                 </div>
                 <div class="flex row section-row">
                     <span class="label">Height:</span>
@@ -194,7 +189,7 @@
             <div class="table-row" v-for="input in result.tx.vin">
                 <span v-if="input.value.amount" class="col amount">{{ fromAtomic(input.value.amount) }} {{ coinConfig.coinTicker }}</span>
                 <span v-else class="col amount">-</span>
-                <span v-if="input.value.k_image" class="col block-hash mono">{{ input.value.k_image }}</span>
+                <span v-if="input.value.k_image" class="col block-hash mono break-word">{{ input.value.k_image }}</span>
                 <span v-else class="col block-hash">Block Reward</span>
             </div>
         </div>
@@ -213,7 +208,7 @@
             </div>
             <div class="table-row" v-for="output in result.tx.vout">
                 <span class="col amount">{{ fromAtomic(output.amount) }} {{ coinConfig.coinTicker }}</span>
-                <span class="col block-hash mono">{{ output.target.data.key }}</span>
+                <span class="col block-hash mono break-word">{{ output.target.data.key }}</span>
             </div>
         </div>
 
@@ -232,7 +227,7 @@
                 <span class="col tx-size">Size</span>
             </div>
             <div class="table-row" v-for="tx in result.block.transactions">
-                <router-link class="col tx-hash detail-link mono"
+                <router-link class="col tx-hash detail-link mono break-word"
                     :to="{ name: 'detail', params: { param: tx.hash }}">
                     {{ tx.hash }}
                 </router-link>
@@ -443,9 +438,8 @@ export default {
     padding-right: 16px;
 }
 .col.block-hash {
-    min-width: 600px;
+    max-width: calc(100vw - 32px) !important;
     flex-grow: 3;
-    min-width: 600px;
 }
 .col.tx-amount {
     width: 150px;
@@ -457,7 +451,7 @@ export default {
     width: 120px;
 }
 .col.tx-hash {
-
+    max-width: calc(100vw - 32px) !important;
     flex-grow: 1;
 }
 .table-row {
@@ -479,6 +473,9 @@ export default {
 .right {
     text-align: right !important;
 }
+.hash-value {
+    max-width: calc(100vw - 32px) !important;
+}
 @media all and (orientation:portrait) {
 
 }
@@ -490,22 +487,18 @@ export default {
     .lock-icon {
         padding-left: 0px;
     }
-    .col.block-hash {
-        display:table;
-        white-space:normal;
-    }
     .col.tx-hash {
         min-width: 100px;
-    }
-    .hash-value {
-        max-width: 100vw !important;
     }
     .table-row {
         max-width: 100vw;
     }
 }
 @media all and (min-width: 600px) {
-
+    .col.block-hash {
+        flex-grow: 3;
+        min-width: 600px;
+    }
 }
 @media all and (min-width: 1600px) {
 
