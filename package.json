@@ -17,10 +17,13 @@
   },
   "homepage": "https://explorer.xiproject.com",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.7.0",
     "apexcharts": "^3.0.0",
     "axios": "^0.18.0",
     "epic-spinners": "^1.0.4",
     "moment": "^2.23.0",
+    "typeface-roboto-mono": "0.0.54",
+    "typeface-source-sans-pro": "0.0.54",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

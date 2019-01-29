@@ -25,7 +25,7 @@
 
         <div class="section column container">
             <div class="section-header">
-                <span style="font-size: 24px; padding: 0px;">Offline Wallet Generator</span>
+                <span style="font-size: 24px; padding: 0px;">Paper Wallet Generator</span>
                 <div class="spacer"></div>
                 <span v-on:click="generate()"
                     class="generate-button">
