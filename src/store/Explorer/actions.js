@@ -33,20 +33,24 @@ const actions = {
 
         state.blockService.getInfo().then((info) => {
 
-            // Return if block height hasn't changed.
-            if (info.height == state.blockHeight) {
+            // Check if network height has changed.
+            if (info.height != state.blockHeight) {
 
-                if (info.tx_pool_size != state.transactionPool.length) {
-
-                    dispatch('getTxPool');
-                }
+                commit('setNetworkInfo', info);
+                dispatch('getLatestBlock', info.height);
+                dispatch('getBlocks');
+                dispatch('getTxPool');
                 return;
             }
 
-            commit('setNetworkInfo', info);
-            dispatch('getLatestBlock', info.height);
-            dispatch('getBlocks');
-            dispatch('getTxPool');
+            // Check if tx pool should be updated.
+            if (info.tx_pool_state != state.tx_pool_state || info.tx_pool_size != state.transactionPool.length) {
+
+                dispatch('getTxPool');
+            }
+            return;
+
+
         }).catch((err) => {
 
             console.log('update error', err);
@@ -87,6 +91,7 @@ const actions = {
         });
     },
     setScanCount: ({ commit }, scanCount) => {
+
         commit('setScanCount', scanCount);
     },
 };

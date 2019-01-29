@@ -28,9 +28,10 @@ const mutations = {
     setScanCount: (state, scanCount) => {
         state.scanCount = scanCount;
     },
-    setNetworkInfo: (state, info) => {
-        state.blockHeight = info.height;
-        state.networkInfo = info;
+    setNetworkInfo: (state, networkInfo) => {
+        state.blockHeight = networkInfo.height;
+        state.networkInfo = networkInfo;
+        //state.networkInfo = { ...state.networkInfo, ...networkInfo};
     },
     setNetworkStats: (state, block) => {
 
