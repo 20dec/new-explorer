@@ -63,8 +63,11 @@
                     </div>
                     <div class="flex row section-row">
                         <span class="label">Unlock Height:</span>
-                        <span>{{ result.tx.unlockHeight }}</span>
-                        <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
+                        <span>
+                            {{ result.tx.unlockHeight }}
+                            <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
+                        </span>
+
                     </div>
                 </div>
             </div>

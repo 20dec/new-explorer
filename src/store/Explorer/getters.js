@@ -80,6 +80,9 @@ const getters = {
             hashMax = diffMax / blockTarget,
             hashAvg = diffAvg / blockTarget;
         let solveTimes = chartData.blockTimes.data.map(s => s.y);
+        if (solveTimes.length === 0) {
+            solveTimes.push(0);
+        }
         let solveMin = Math.min(...solveTimes),
             solveMax = Math.max(...solveTimes),
             solveAvg = solveTimes.reduce((a,b) => a + b, 0) / solveTimes.length;
@@ -97,9 +100,9 @@ const getters = {
                     avg: hashAvg
                 },
                 solveTimes: {
-                    min: solveMin,
-                    max: solveMax,
-                    avg: solveAvg.toFixed(2)
+                    min: solveMin || undefined,
+                    max: solveMax || undefined,
+                    avg: solveAvg ? solveAvg.toFixed(2) : undefined
                 },
             },
             netChartData: {

@@ -35,17 +35,17 @@
             <div class="flex row stats-row">
                 <span class="label">Difficulty</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.difficulty }}</span>
+                <span class="value">{{ networkInfo.difficulty || '-' }}</span>
             </div>
             <div class="flex row stats-row">
                 <span class="label">Hashrate</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.hashrate }} H/s</span>
+                <span class="value">{{ networkInfo.hashrate || '-' }} H/s</span>
             </div>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Avg. Solve Time</span>
                 <span class="spacer"></span>
-                <span class="value">{{ netStats.solveTimes.avg }} sec</span>
+                <span class="value">{{ netStats.solveTimes.avg || '-' }} sec</span>
             </div>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Total Transactions</span>
@@ -57,17 +57,17 @@
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Circulating</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.circulatingCoins }} {{ coinConfig.coinTicker }}</span>
+                <span class="value">{{ networkInfo.circulatingCoins || '-' }} {{ coinConfig.coinTicker }}</span>
             </div>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Emission</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.emission }} %</span>
+                <span class="value">{{ networkInfo.emission || '-' }} %</span>
             </div>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Block Reward</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.blockReward }} {{ coinConfig.coinTicker }}</span>
+                <span class="value">{{ networkInfo.blockReward || '-' }} {{ coinConfig.coinTicker }}</span>
             </div>
         </div>
         <!-- Diff/hash Chart -->
