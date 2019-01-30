@@ -28,5 +28,5 @@ Webhoster:
     - lftp -d -e "set ftp:ssl-allow false; mirror -eRnv dist /; exit;" -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
   only:
     - refactoring
-    - refactoring-ci-cd
+    - master
   when: manual
