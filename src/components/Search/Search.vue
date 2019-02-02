@@ -65,7 +65,7 @@ export default {
                 return;
             }
 
-            let searchTerm = this.searchTerm;
+            let searchTerm = this.searchTerm.trim();
             this.searchTerm = '';
             this.$router.push({ name: 'detail', params: { param: searchTerm } });
         }
