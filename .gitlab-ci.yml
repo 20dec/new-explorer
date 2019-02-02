@@ -1,15 +1,32 @@
 stages:
   - build
+  - deploy
 
-Build Container:
-  image: docker:stable
+Build Site:
+  image: node:latest
   stage: build
-  tags:
-    - dind
-  before_script: ["docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com"]
+  tags: ["docker"]
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  artifacts:
+    paths:
+      - dist/
+  before_script:
+    - npm install
   script:
-    - docker pull registry.gitlab.com/galaxia-project/services/block-explorer || true
-    - docker build --tag registry.gitlab.com/galaxia-project/services/block-explorer .
-    - docker push registry.gitlab.com/galaxia-project/services/block-explorer
+    - npm run build
+
+Webhoster:
+  stage: deploy
+  tags: ["docker"]
+  image:
+    name: alpacadb/docker-lftp
+    entrypoint: [""]
+  script:
+    - lftp -d -e "set ftp:ssl-allow false; mirror -eRnv dist /; exit;" -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST
   only:
+    - refactoring
     - master
+  when: manual
