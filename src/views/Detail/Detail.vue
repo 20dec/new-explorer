@@ -116,10 +116,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Spacer for search bar -->
-
         </div>
+
         <!-- Search -->
         <search></search>
 
@@ -239,23 +237,17 @@
                 <span class="col tx-size">{{ tx.size }}</span>
             </div>
         </div>
+        <div class="spacer" v-if="!loading && !errorMsg"></div>
+        <copyright></copyright>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import PageError from '@/components/PageError';
-import PageLoading from '@/components/PageLoading';
-import Search from '@/components/Search';
 import moment from 'moment';
 
 export default {
     name: 'detail',
-    components: {
-        'page-error': PageError,
-        'page-loading': PageLoading,
-        'search': Search
-    },
     props: {
         param: undefined
     },
@@ -290,7 +282,6 @@ export default {
             this.errorMsg = '';
             this.result = {};
 
-            console.log(this.param);
             // Return if no param.
             if (!this.param) {
 
@@ -329,7 +320,6 @@ export default {
 
             this.blockService.getBlockHash(height).then((hash) => {
 
-                console.log('got hash', hash);
                 this.findHash(hash);
             }).catch((err) => {
 
@@ -373,7 +363,6 @@ export default {
             this.loading = false;
             this.errorMsg = '';
             this.result = result;
-            console.log(result);
         },
         setError (errorMsg) {
 

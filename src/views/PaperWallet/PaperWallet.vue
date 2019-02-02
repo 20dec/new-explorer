@@ -84,37 +84,38 @@
                 </div>
             </div>
         </div>
+        <div class="spacer" ></div>
+        <copyright></copyright>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'paperWallet',
-        data () {
-            return {
-                paperWallet: {}
-            }
-        },
-        mounted: function () {
+export default {
+    name: 'paperWallet',
+    data () {
+        return {
+            paperWallet: {}
+        }
+    },
+    mounted: function () {
 
+    },
+    methods: {
+        generate () {
 
-        },
-        methods: {
-            generate () {
+            this.paperWallet = {};
 
-                this.paperWallet = {};
-
-                let seed = cnUtil.sc_reduce32(poor_mans_kdf(cnUtil.rand_32()));
-                let keys = cnUtil.create_address(seed);
-                let mnemonic = mn_encode(seed, "english");
-                this.paperWallet = {
-                    seed,
-                    keys,
-                    mnemonic
-                }
+            let seed = cnUtil.sc_reduce32(poor_mans_kdf(cnUtil.rand_32()));
+            let keys = cnUtil.create_address(seed);
+            let mnemonic = mn_encode(seed, "english");
+            this.paperWallet = {
+                seed,
+                keys,
+                mnemonic
             }
         }
-    };
+    }
+};
 </script>
 
 <style scoped>

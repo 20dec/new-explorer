@@ -21,115 +21,29 @@
  *                                                                                                *
  * ============================================================================================ -->
 <template>
-    <div class="explorer">
-
-        <!-- Network stats -->
-        <div class="top-section back-dark">
-            <net-stats></net-stats>
-        </div>
-
-        <!-- Search -->
-        <search></search>
-
-        <!-- Transaction pool -->
-        <div class="section column container">
-            <div class="section-header">
-                <i class="fas fa-fw fa-exchange-alt"></i>
-                <span>Transaction Pool</span>
-                <div class="spacer"></div>
-            </div>
-            <tx-pool></tx-pool>
-        </div>
-
-        <!-- Blocks -->
-        <div class="section column container">
-            <div class="section-header">
-                <i class="fas fa-fw fa-history"></i>
-                <span>Blocks</span>
-                <div class="spacer"></div>
-            </div>
-            <block-table></block-table>
-        </div>
-
-        <copyright></copyright>
+    <div class="copyright">
+        <span>Copyright © 2018 Xi Development Team.</span>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
-import BlockTable from './components/BlockTable';
-import NetStats from './components/NetStats';
-import TxPool from './components/TxPool';
-
 export default {
-    name: 'explorer',
-    components: {
-        'block-table': BlockTable,
-        'net-stats': NetStats,
-        'tx-pool': TxPool
-    },
-    data () {
-        return {}
-    },
-    mounted: function () {
-    },
-    computed: {
-        ...mapState({
-            scanCounts: state => state.explorer.scanCounts,
-            scanCount: state => state.explorer.scanCount
-        }),
-        ...mapGetters({})
-    },
-    methods: {
-        ...mapActions({
-            setScanCount: 'explorer/setScanCount'
-        })
-    }
+    name: 'copyright'
 };
 </script>
 
 <style scoped>
-.explorer {
-    max-width: 100vw;
+.copyright {
     display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    flex-grow: 0;
+    flex-direction: row;
     flex-shrink: 0;
-    width: 100%;
+    flex-grow: 0;
     align-items: center;
-}
-.label {
-    padding: 0px 16px;
-}
-.radio-group {
-    font-weight: 600;
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
+    justify-content: center;
     box-sizing: border-box;
-    color: #757780;
-    box-shadow: 0px 0px 1px rgba(0,0,0,0.1) inset;
-}
-.radio {
-    padding: 8px 12px;
-    cursor: pointer;
-    box-shadow: 0px 0px 1px rgba(0,0,0,0.1) inset;
-}
-.checked {
-    color: #2A2B30;
-    cursor: default !important;
-}
-.table-row {
-    border-bottom: 1px solid #e0e0e0;
-    border-collapse: collapse;
-    padding-top: 2px;
-}
-.table-row.header {
-
-}
-.table-column {
-    flex-grow: 1;
-    flex-shrink: 0;
+    padding: 16px 0px;
+    width: 100%;
+    color: #3C4F5E;
+    /*box-shadow: 0px -1px 1px rgba(102,102,102,0.2) inset;*/
 }
 </style>

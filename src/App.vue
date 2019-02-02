@@ -33,11 +33,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import Copyright from '@/components/Copyright';
 import NavBar from '@/components/NavBar';
 
 export default {
     name: 'App',
     components: {
+        'copyright': Copyright,
         'nav-bar': NavBar
     },
     created () {
