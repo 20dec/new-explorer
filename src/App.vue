@@ -116,23 +116,17 @@ body {
 
 }
 @media all and (min-width: 1600px) {
-    .main-content {
-        /*max-width: 1400px;*/
-    }
     .container {
         max-width: 1400px;
     }
 }
 @media all and (min-width: 1800px) {
-    .main-content {
-        /*max-width: 1600px;*/
-    }
     .container {
         max-width: 1600px;
     }
 }
 @media all and (min-width: 2200px) {
-    .main-content {
+    .container {
         max-width: 2000px;
     }
 }
