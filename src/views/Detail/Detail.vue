@@ -314,7 +314,7 @@ export default {
         },
         unlockHeight: function (height, unlockBlocks) {
 
-            return height + unlockBlocks;
+            return unlockBlocks;
         },
         findBlock (height) {
 
@@ -352,7 +352,6 @@ export default {
 
                 // Set unlock_time in case it's not being used.
                 result.tx.unlock_time = result.tx.unlock_time || 0;
-                result.tx.unlockHeight = result.block.height + result.tx.unlock_time;
                 result.tx.unlocked = this.blockHeight > result.tx.unlockHeight;
             } else {
 
