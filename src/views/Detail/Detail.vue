@@ -61,13 +61,19 @@
                         <span class="label">Payment Id:</span>
                         <span>{{ result.txDetails.paymentId }}</span>
                     </div>
-                    <div class="flex row section-row">
+                    <div class="flex row section-row" v-if="result.tx.unlockHeight < coinConfig.maxBlockHeight">
                         <span class="label">Unlock Height:</span>
                         <span>
                             {{ result.tx.unlockHeight }}
                             <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
                         </span>
-
+                    </div>
+                    <div class="flex row section-row" v-if="result.tx.unlockHeight >= coinConfig.maxBlockHeight">
+                        <span class="label">Unlock Timestamp:</span>
+                        <span>
+                            <span class="value">{{ localTimestamp(result.tx.unlockHeight) }}</span>
+                            <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -352,7 +358,12 @@ export default {
 
                 // Set unlock_time in case it's not being used.
                 result.tx.unlock_time = result.tx.unlock_time || 0;
-                result.tx.unlocked = this.blockHeight > result.tx.unlockHeight;
+                result.tx.unlockHeight = result.tx.unlock_time;
+                if(result.tx.unlockHeight < this.coinConfig.maxBlockHeight) {
+                    result.tx.unlocked = this.blockHeight >= result.tx.unlockHeight;
+                } else {
+                    result.tx.unlocked = (((new Date()).getTime() / 1000)||0) > result.tx.unlockHeight;
+                }
             } else {
 
                 this.blockResult = result;
