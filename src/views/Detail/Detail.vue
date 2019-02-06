@@ -323,7 +323,7 @@ export default {
                 this.findHash(hash);
             }).catch((err) => {
 
-                this.setError(err);
+                this.setError('No results found');
             });
         },
         findHash (hash) {
@@ -333,7 +333,7 @@ export default {
                 this.setResult(result);
             }).catch((err) => {
 
-                this.setError(err);
+                this.setError('No results found');
             });
         },
         setResult: function (result) {
