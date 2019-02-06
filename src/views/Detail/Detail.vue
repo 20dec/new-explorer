@@ -403,7 +403,7 @@ export default {
     padding-bottom: 8px;
 }
 .label {
-    width: 110px;
+    width: 140px;
     font-weight: 600;
     padding-right: 8px;
 }
@@ -499,6 +499,18 @@ export default {
 
 }
 @media all and (min-width: 2200px) {
-
+    .col.amount {
+        flex-grow: 0;
+        flex-shrink: 0;
+        min-width: 400px;
+        width: 400px;
+    }
+    .label {
+        min-width: 260px;
+        max-width: 260px;
+        width: 260px;
+        font-weight: 600;
+        padding-right: 8px;
+    }
 }
 </style>
