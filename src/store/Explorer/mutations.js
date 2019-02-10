@@ -29,6 +29,17 @@ const mutations = {
         state.scanCount = scanCount;
     },
     setNetworkInfo: (state, networkInfo) => {
+
+        // Set hashrate divisor
+        let hashrate = networkInfo.hashrate,
+            divisors = ['', 'K', 'M', 'G'],
+            divisor = 0;
+        while (hashrate > 1000) {
+            hashrate = hashrate / 1000;
+            divisor = divisor + 1;
+        }
+
+        networkInfo.hashrateDisplay = `${hashrate.toFixed(2)} ${divisors[divisor]}H/s`;
         state.blockHeight = networkInfo.height;
         state.networkInfo = networkInfo;
         //state.networkInfo = { ...state.networkInfo, ...networkInfo};

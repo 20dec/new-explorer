@@ -40,7 +40,7 @@
             <div class="flex row stats-row">
                 <span class="label">Hashrate</span>
                 <span class="spacer"></span>
-                <span class="value">{{ networkInfo.hashrate || '-' }} H/s</span>
+                <span class="value">{{ networkInfo.hashrateDisplay || networkInfo.hashrate || '-' }}</span>
             </div>
             <div class="flex row stats-row" v-if="netStats.solveTimes">
                 <span class="label">Avg. Solve Time</span>
