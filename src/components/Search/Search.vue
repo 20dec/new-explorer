@@ -75,7 +75,7 @@ export default {
 
 <style scoped>
 .search {
-    width: 100%;
+    width: 100vw;
     background: linear-gradient(to bottom, #292F36 50%, rgba(0,0,0,0) 50%);
     margin-bottom: 32px;
     padding: 8px 0px;

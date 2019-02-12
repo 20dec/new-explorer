@@ -377,6 +377,7 @@ export default {
 
 <style scoped>
 .detail-page {
+    max-width: 100vw;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -425,7 +426,8 @@ export default {
     flex-shrink: 0;
 }
 .col.amount {
-    min-width: 100px;
+    min-width: 110px;
+    width: 140px;
     flex-grow: 1;
     padding-right: 16px;
 }

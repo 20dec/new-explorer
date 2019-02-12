@@ -80,6 +80,7 @@ body {
 }
 .main-wrapper {
     width: 100%;
+    max-width: 100vw;
     display: flex;
     flex-grow: 1;
     overflow-y: scroll;
@@ -107,7 +108,9 @@ body {
     font-size: 14px;
 }
 @media all and (orientation:portrait) {
-
+    .main-wrapper {
+        overflow-x: hidden;
+    }
 }
 @media all and (max-width: 599px) {
 
