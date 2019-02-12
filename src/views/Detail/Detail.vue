@@ -61,10 +61,10 @@
                         <span class="label">Payment Id:</span>
                         <span>{{ result.txDetails.paymentId }}</span>
                     </div>
-                    <div class="flex row section-row">
-                        <span class="label">Unlock Height:</span>
+                    <div class="flex row section-row" v-if="result.tx.unlockHeight || result.tx.unlockTime">
+                        <span class="label">Unlock {{ result.tx.unlockTime ? 'Time' : 'Height' }}:</span>
                         <span>
-                            {{ result.tx.unlockHeight }}
+                            {{ result.tx.unlockHeight || result.tx.unlockTime }}
                             <i v-if="!result.tx.unlocked" class="fas fa-fw fa-lock lock-icon"></i>
                         </span>
 
@@ -352,11 +352,26 @@ export default {
 
                 // Set unlock_time in case it's not being used.
                 result.tx.unlock_time = result.tx.unlock_time || 0;
-                result.tx.unlockHeight = result.block.height + result.tx.unlock_time;
-                result.tx.unlocked = this.blockHeight > result.tx.unlockHeight;
-            } else {
 
-                this.blockResult = result;
+                // Use unlock_time as block height if it's less than maxBlockHeight
+                if (result.tx.unlock_time < this.coinConfig.maxBlockHeight) {
+
+                    // Use block height if unlockHeight is before tx height.
+                    result.tx.unlockHeight = (result.tx.unlock_time > result.block.height) ?
+                        result.tx.unlock_time : result.block.height;
+                    result.tx.unlocked = this.blockHeight >= result.tx.unlockHeight;
+                } else {
+
+                    // Otherwise unlock_time as a timestamp.
+                    let unlockTime = (result.tx.unlock_time > result.block.timestamp) ?
+                        moment.unix(result.tx.unlock_time) : moment.unix(result.block.timestamp);
+
+                    if (unlockTime.isValid()) {
+
+                        result.tx.unlockTime = unlockTime.format(this.dateFormat);
+                        result.tx.unlocked = moment().isSameOrAfter(unlockTime);
+                    }
+                }
             }
 
             // Set result.
