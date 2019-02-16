@@ -64,7 +64,7 @@ export default {
         }),
     },
     methods: {
-        localTimestamp: function (timestamp) {
+        localTimestamp (timestamp) {
 
             return moment.unix(timestamp).format(this.dateFormat);
         }

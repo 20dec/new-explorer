@@ -304,15 +304,15 @@ export default {
             let height = parseInt(this.param);
             return this.findBlock(height);
         },
-        localTimestamp: function (timestamp) {
+        localTimestamp (timestamp) {
 
             return moment.unix(timestamp).format(this.dateFormat);
         },
-        fromAtomic: function (amount) {
+        fromAtomic (amount) {
 
             return (amount / this.coinConfig.coinUnits).toFixed(this.coinConfig.decimals);
         },
-        unlockHeight: function (height, unlockBlocks) {
+        unlockHeight (height, unlockBlocks) {
 
             return height + unlockBlocks;
         },
@@ -336,7 +336,7 @@ export default {
                 this.setError('No results found');
             });
         },
-        setResult: function (result) {
+        setResult (result) {
 
             if (!result || !result.block) {
 
