@@ -31,7 +31,7 @@
             <span class="col difficulty center">Difficulty</span>
 
         </div>
-        <div class="table-row" v-for="block in blocks">
+        <div class="table-row" v-for="block in blocks" :key="block.height">
             <span class="col height">{{ block.height }}</span>
             <span class="col timestamp">{{ localTimestamp(block.timestamp) }}</span>
             <span class="col block-hash link">

@@ -187,7 +187,7 @@
                 <span class="col amount">Amount</span>
                 <span class="col block-hash">Key</span>
             </div>
-            <div class="table-row" v-for="input in result.tx.vin">
+            <div class="table-row" v-for="(input, index) in result.tx.vin" :key="index">
                 <span v-if="input.value.amount" class="col amount">{{ fromAtomic(input.value.amount) }} {{ coinConfig.coinTicker }}</span>
                 <span v-else class="col amount">-</span>
                 <span v-if="input.value.k_image" class="col block-hash mono break-word">{{ input.value.k_image }}</span>
@@ -207,7 +207,7 @@
                 <span class="col amount">Amount</span>
                 <span class="col block-hash">Key</span>
             </div>
-            <div class="table-row" v-for="output in result.tx.vout">
+            <div class="table-row" v-for="(output, index) in result.tx.vout" :key="index">
                 <span class="col amount">{{ fromAtomic(output.amount) }} {{ coinConfig.coinTicker }}</span>
                 <span class="col block-hash mono break-word">{{ output.target.data.key }}</span>
             </div>
@@ -227,7 +227,7 @@
                 <span class="col tx-fee">Fee</span>
                 <span class="col tx-size">Size</span>
             </div>
-            <div class="table-row" v-for="tx in result.block.transactions">
+            <div class="table-row" v-for="tx in result.block.transactions" :key="tx.hash">
                 <router-link class="col tx-hash detail-link mono break-word"
                     :to="{ name: 'detail', params: { param: tx.hash }}">
                     {{ tx.hash }}
