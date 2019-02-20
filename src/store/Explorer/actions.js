@@ -59,7 +59,7 @@ const actions = {
     getBlocks: ({ commit, dispatch, state }) => {
 
         let topBlockIndex = state.blockHeight;
-        state.blockService.getBlocks(topBlockIndex).then((blocks) => {
+        state.blockService.getBlocks(topBlockIndex - 1).then((blocks) => {
 
             commit('setBlocks', blocks);
         }).catch((err) => {
