@@ -1,6 +1,6 @@
 const Coin = {
     blockTargetSeconds: 120,
-    coinUnits: 1000000,
+    coinUnits: 100000000,
     decimals: 4,
     coinName: 'AmityCoin',
     coinTicker: 'AMIT',
