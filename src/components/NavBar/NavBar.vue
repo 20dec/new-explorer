@@ -24,9 +24,8 @@
     <div class="nav-bar back-dark">
         <div class="nav-content">
             <!-- App logo -->
-            <img class="site-logo"
-                v-bind:class="{ 'scrolled': isScrolled }"
-                src="@/assets/logo.png">
+            <a href="https://getamitycoin.org"><img class="site-logo"
+                src="@/assets/logo.png"></a>
             <!-- Links -->
             <span class="app-title"></span>
             <router-link to="/" class="nav-link text-light" exact>
