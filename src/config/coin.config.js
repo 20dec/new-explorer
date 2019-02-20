@@ -4,7 +4,7 @@ const Coin = {
     decimals: 4,
     coinName: 'AmityCoin',
     coinTicker: 'AMIT',
-    totalSupply: 10000000000000000,
+    totalSupply: 100000000000000,
     maxBlockHeight: 500000000
 };
 
