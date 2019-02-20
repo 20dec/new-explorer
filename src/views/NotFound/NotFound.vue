@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import NotFoundImage from '@/assets/not-found.png';
+import NotFoundImage from '@/assets/logo.png';
 
 export default {
     name: 'notFound',
