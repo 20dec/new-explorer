@@ -24,10 +24,6 @@
     <div class="nav-bar back-dark">
         <div class="nav-content">
             <!-- App logo -->
-            <router-link to="/ex2/ex2.html#check_txn" class="nav-link text-light" exact>
-                <div class="link-wrapper">
-                    <i class="fas fa-fw fa-question nav-icon"></i>
-                    <span class="nav-text">Check TX</span>
             <a href="https://getamitycoin.org"><img class="site-logo"
                 src="@/assets/logo.png"></a>
             <!-- Links -->
